@@ -1,0 +1,92 @@
+configfile: "config.yaml"
+
+# Rule 1: preprocess each sample (TH1, TH2)
+rule preprocess:
+    input:
+        script = lambda wildcards: "preprocess_seurat.R" if wildcards.sample == "TH1" else "preprocessS.R"
+    output:
+        "results/{sample}/preprocessed.rds"
+    params:
+        sample = "{sample}"
+    log:
+        "logs/preprocess_{sample}.log"
+    shell:
+        "Rscript {input.script} {params.sample} > {log} 2>&1"
+
+# Rule 2: filter each sample
+rule filter:
+    input:
+        script = lambda wildcards: "filter_seurat.R" if wildcards.sample == "TH1" else "filterS.R",
+        preprocessed = "results/{sample}/preprocessed.rds"
+    output:
+        "results/{sample}/filtered.rds"
+    params:
+        s = "{sample}",
+        nATAC1 = config["params"]["nATAC1"],
+        nRNA1 = config["params"]["nRNA1"],
+        nATAC2 = config["params"]["nATAC2"],
+        nRNA2 = config["params"]["nRNA2"],
+        features = config["params"]["features"],
+        nucl = config["params"]["nucl"],
+        tss = config["params"]["tss"],
+        mt = config["params"]["mt"]
+    log:
+        "logs/filter_{sample}.log"
+    shell:
+        """
+        Rscript {input.script} {params.s} {params.nATAC1} {params.nRNA1} {params.nATAC2} {params.nRNA2} \
+            {params.features} {params.nucl} {params.tss} {params.mt} > {log} 2>&1
+        """
+
+# Rule 3: merge filtered samples
+rule merge:
+    input:
+        script = "mergeS.R",
+        filtered = expand("results/{sample}/filtered.rds", sample=config["samples"])
+    output:
+        "results/{merged_sample}/merged.rds"
+    params:
+        merged_sample = config["merged_sample"],
+        samples = " ".join(config["samples"])
+    log:
+        "logs/merge_{merged_sample}.log"
+    shell:
+        "Rscript {input.script} {params.merged_sample} {params.samples} > {log} 2>&1"
+
+# Rule 4: analyse merged sample
+rule analyse:
+    input:
+        script = "analyseS.R",
+        merged = "results/{merged_sample}/merged.rds"
+    output:
+        "results/{merged_sample}/analysed.rds"
+    params:
+        merged_sample = config["merged_sample"]
+    log:
+        "logs/analyse_{merged_sample}.log"
+    shell:
+        "Rscript {input.script} {params.merged_sample} > {log} 2>&1"
+
+# Rule 5: plot markers
+rule plot_markers:
+    input:
+        script = "plotMarkersS.R",
+        analysed = "results/{merged_sample}/analysed.rds",
+        markers = config["markers_file"]
+    output:
+        "results/{merged_sample}/plots_done.txt"
+    params:
+        merged_sample = config["merged_sample"]
+    log:
+        "logs/plotMarkers_{merged_sample}.log"
+    shell:
+        """
+        Rscript {input.script} {params.merged_sample} {input.markers} > {log} 2>&1
+        touch {output}
+        """
+
+# Final target
+rule all:
+    input:
+        "results/{merged_sample}/plots_done.txt"
+

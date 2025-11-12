@@ -1,0 +1,20 @@
+# Configuration for Seurat pipeline
+
+samples:
+  - TH1
+  - TH2
+
+merged_sample: cNeurog2
+markers_file: markers.txt
+
+# Parameters for filtering (matching args[2:9])
+params:
+  nATAC1: 100000
+  nRNA1: 30000
+  nATAC2: 0
+  nRNA2: 0
+  features: 200
+  nucl: 0.5
+  tss: 8
+  mt: 1
+
