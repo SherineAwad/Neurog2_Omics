@@ -36,7 +36,12 @@ DepthCor(myObject)
 dev.off()
 
 ### Combine RNA and ATAC with WNN analysis
-myObject <- FindMultiModalNeighbors(myObject, reduction.list = list("pca", "lsi"), dims.list = list(1:30, 2:30))
+myObject <- FindMultiModalNeighbors(
+  myObject,
+  reduction.list = list("pca", "lsi"),
+  dims.list = list(6:15, 2:20) 
+)
+
 myObject <- RunUMAP(myObject, nn.name = "weighted.nn", reduction.name = "umap.wnn", reduction.key ="wnnUMAP_")
 myObject <- FindClusters(myObject, graph.name = "wsnn", resolution = 1.2, algorithm = 3, verbose = FALSE)
 
@@ -64,9 +69,17 @@ png(file=figure_name, width=1200, height=800)
 p2 + p3 & NoAxes()
 dev.off()
 
+p1 <- DimPlot(myObject, reduction = "umap.rna", group.by = "orig.ident", repel = TRUE) + ggtitle("RNA")
+p3 <- DimPlot(myObject, reduction = "umap.wnn", group.by = "orig.ident",  repel = TRUE) + ggtitle("WNN")
+
+figure_name <- paste(mysample, "_ident_VlnPlot.png", sep="")
+png(file=figure_name, width=1200, height=800)
+p1 + p3 & NoAxes()
+dev.off()
+
 # -----------------------------
 # NEW: WNN plot by sample for batch effect
-figure_name <- paste(mysample, "_Sample_VlnPlot.png", sep="")
+figure_name <- paste(mysample, "_WNN_by_sample.png", sep="")
 png(file=figure_name, width=1200, height=800)
 DimPlot(myObject, reduction = "umap.wnn", group.by = "Sample", repel = TRUE) + ggtitle("WNN by Sample")
 dev.off()
