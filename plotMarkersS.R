@@ -61,7 +61,7 @@ for(gene in valid_genes){
     FeaturePlot(myObject,
                 features = gene,
                 order = TRUE,
-                reduction = "umap.rna",
+                reduction = "umap.wnn",
                 cols = c("lightgrey", "red"),
                 pt.size = 0.1) +
       ggtitle(gene)
