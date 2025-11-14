@@ -3,9 +3,6 @@
 Overexpression of stablized version of Neurog2 
 
 
-# Fixing mapping is in progress
-
-
 ## Before filtering 
 
 ![TH1 before filtering](figures/TH1_QC_vlnplot.png?v=2)
