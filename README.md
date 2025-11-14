@@ -17,7 +17,7 @@ Overexpression of stablized version of Neurog2
 ![TH1 after filtering](figures/TH1_QC_vlnplot_after_filtering.png?v=4)
 
 
-![TH2 after filtering](figures/TH2_QC_vlnplot_after_filtering.png?v=5)
+![TH2 after filtering](figures/TH2_QC_vlnplot_after_filtering.png?v=4)
 
 
 ## Umap 
@@ -28,7 +28,7 @@ Overexpression of stablized version of Neurog2
 
 ![Clusters](figures/cNeurog2_Clusters.png?v=4)
 
-![WNN by Sample](figures/cNeurog2_Sample_VlnPlot.png?v=4)
+![WNN by Sample](figures/cNeurog2_Sample_VlnPlot.png?v=5)
 
 
 ## Marker Genes feature  plots
