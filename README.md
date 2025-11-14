@@ -29,6 +29,8 @@ Overexpression of stablized version of Neurog2
 
 ![Clusters](figures/cNeurog2_Clusters.png?v=2)
 
+![WNN by Sample](figures/cNeurog2_Sample_VlnPlot.png?v=2)
+
 
 ## Marker Genes feature  plots
 
