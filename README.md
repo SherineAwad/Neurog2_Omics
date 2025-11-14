@@ -17,8 +17,7 @@ Overexpression of stablized version of Neurog2
 ![TH1 after filtering](figures/TH1_QC_vlnplot_after_filtering.png?v=4)
 
 
-![TH2 after filtering](figures/TH2_QC_vlnplot_after_filtering.png?v=4)
-
+![TH2 after filtering](figures/TH2_QC_vlnplot_after_filtering.png?v=5)
 
 
 ## Umap 
