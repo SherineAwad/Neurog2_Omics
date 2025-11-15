@@ -1,146 +1,92 @@
 #!/usr/bin/env Rscript
 
-library(Signac)
 library(Seurat)
-library(GenomeInfoDb)
-library(future)
 library(ggplot2)
 library(patchwork)
-library(Matrix)
 library(dplyr)
-library(harmony)
 set.seed(1234)
-
-plan("multicore", workers = 8)
-options(future.globals.maxSize = 20 * 1024^3)
 
 args <- commandArgs(trailingOnly = TRUE)
 mysample <- args[1]
 
 # --------------------------------------------------------------
-# LOAD PREVIOUS PROCESSED OBJECT
+# LOAD ORIGINAL OBJECT
 # --------------------------------------------------------------
-input_rds <- paste(mysample, "_analysed.rds", sep="")
+input_rds <- paste0(mysample, "_analysed.rds")
 myObject <- readRDS(input_rds)
 
-if (!"seurat_clusters" %in% colnames(myObject@meta.data)) {
-  stop("seurat_clusters not found in metadata.")
-}
+# --------------------------------------------------------------
+# CHECK REQUIRED REDUCTIONS AND GRAPHS
+# --------------------------------------------------------------
+if (!"umap.wnn.harmony" %in% names(myObject@reductions)) stop("umap.wnn.harmony missing!")
+if (!"wsnn_harmony" %in% names(myObject@graphs)) stop("wsnn_harmony missing!")
 
 # --------------------------------------------------------------
 # REMOVE CLUSTERS 11 AND 19
 # --------------------------------------------------------------
-clusters_to_remove <- c("11", "19")
+# Make sure Idents are set to seurat_clusters
+Idents(myObject) <- "seurat_clusters"
+
+clusters_to_remove <- c("11","19")
 cells_remove <- WhichCells(myObject, idents = clusters_to_remove)
 myObject <- subset(myObject, cells = setdiff(colnames(myObject), cells_remove))
-Idents(myObject) <- "orig.ident"
 
 # --------------------------------------------------------------
-# REDUCED DIMENSIONS TO MAKE CLUSTERS CLOSER
-# --------------------------------------------------------------
-
-### RNA
-DefaultAssay(myObject) <- "SCT"
-myObject <- RunPCA(myObject, npcs = 10)
-
-myObject <- RunHarmony(
-  myObject,
-  group.by.vars = "orig.ident",
-  reduction = "pca",
-  assay.use = "SCT",
-  reduction.save = "harmony.rna.recluster",
-  theta = 2,
-  lambda = 2,
-  sigma = 0.8,
-  nclust = 50
-)
-
-### ATAC
-DefaultAssay(myObject) <- "ATAC"
-myObject <- RunSVD(myObject, n = 10)
-
-myObject <- RunHarmony(
-  myObject,
-  group.by.vars = "orig.ident",
-  reduction = "lsi",
-  assay.use = "ATAC",
-  project.dim = FALSE,
-  reduction.save = "harmony.atac.recluster",
-  theta = 2,
-  lambda = 2,
-  sigma = 0.8,
-  nclust = 50
-)
-
-# --------------------------------------------------------------
-# OPTIONAL: compress embeddings to bring clusters closer
-# --------------------------------------------------------------
-myObject[["harmony.rna.recluster"]]@cell.embeddings <- 
-  myObject[["harmony.rna.recluster"]]@cell.embeddings * 0.5
-myObject[["harmony.atac.recluster"]]@cell.embeddings <- 
-  myObject[["harmony.atac.recluster"]]@cell.embeddings * 0.5
-
-# --------------------------------------------------------------
-# WNN
-# --------------------------------------------------------------
-myObject <- FindMultiModalNeighbors(
-  myObject,
-  reduction.list = list("harmony.rna.recluster", "harmony.atac.recluster"),
-  dims.list = list(1:10, 2:10),
-  knn.graph.name = "wknn_re",
-  snn.graph.name = "wsnn_re",
-  weighted.nn.name = "weighted.nn.re"
-)
-
-# --------------------------------------------------------------
-# CLUSTER — LOWER RESOLUTION
+# RECLUSTER USING EXISTING SNN GRAPH
 # --------------------------------------------------------------
 myObject <- FindClusters(
   myObject,
-  graph.name = "wsnn_re",
-  resolution = 0.3,  # merge small clusters → closer clusters
+  graph.name = "wsnn_harmony",
+  resolution = 0.1,  # merge clusters → visually closer
   algorithm = 3,
-  verbose = FALSE
+  verbose = TRUE
 )
 
-myObject$Sample <- myObject$orig.ident
-
 # --------------------------------------------------------------
-# RECOMPUTE UMAP — TIGHTER EMBEDDING
+# UPDATE UMAP ON ORIGINAL HARMONY EMBEDDINGS
 # --------------------------------------------------------------
+# Keep the original Harmony embeddings: "harmony.rna" + "harmony.atac"
 myObject <- RunUMAP(
   myObject,
-  nn.name = "weighted.nn.re",
-  reduction.name = "umap.wnn.re",
-  reduction.key = "wnnRe_",
-  spread = 0.5,
+  reduction = "harmony.rna",   # you can choose either rna, atac, or concatenate
+  dims = 1:30,
+  reduction.name = "umap.wnn.harmony",
+  reduction.key = "wnnHarmony_",
+  spread = 0.8,
   min.dist = 0.2
 )
 
 # --------------------------------------------------------------
+# OPTIONAL: compress UMAP coordinates for closer clusters
+# --------------------------------------------------------------
+coords <- Embeddings(myObject, "umap.wnn.harmony")
+coords <- coords * 0.6
+myObject[["umap.wnn.harmony"]]@cell.embeddings <- coords
+
+# --------------------------------------------------------------
 # PLOTS
 # --------------------------------------------------------------
-figure_name <- paste(mysample, "_Recluster_Clusters.png", sep="")
-png(file = figure_name, width = 1200, height = 800)
+figure_name <- paste0(mysample, "_Recluster_Clusters.png")
+png(file=figure_name, width=1200, height=800)
 print(
-  DimPlot(myObject, reduction = "umap.wnn.re",
-          group.by = "seurat_clusters", label = TRUE, repel = TRUE) +
-  ggtitle("Reclustered with Compressed & Tighter UMAP")
+  DimPlot(myObject, reduction = "umap.wnn.harmony",
+          group.by = "seurat_clusters", label=TRUE, repel=TRUE) +
+    ggtitle("Reclustered (Removed 11 & 19) - Updated Harmony UMAP")
 )
 dev.off()
 
-figure_name <- paste(mysample, "_Recluster_BySample.png", sep="")
-png(file = figure_name, width = 1200, height = 800)
+figure_name <- paste0(mysample, "_Recluster_BySample.png")
+png(file=figure_name, width=1200, height=800)
 print(
-  DimPlot(myObject, reduction = "umap.wnn.re",
-          group.by = "Sample", repel = TRUE) +
-  ggtitle("Reclustered Samples (Compressed & Tighter UMAP)")
+  DimPlot(myObject, reduction = "umap.wnn.harmony",
+          group.by = "orig.ident", repel=TRUE) +
+    ggtitle("Reclustered by Sample - Updated Harmony UMAP")
 )
 dev.off()
 
 # --------------------------------------------------------------
 # SAVE RESULT
 # --------------------------------------------------------------
-output_rds <- paste(mysample, "_reclustered_tight.rds", sep="")
-saveRDS(myObject, file = output_rds)
+output_rds <- paste0(mysample, "_reclustered_harmony_updatedUMAP.rds")
+saveRDS(myObject, file=output_rds)
 
