@@ -87,6 +87,6 @@ dev.off()
 # --------------------------------------------------------------
 # SAVE RESULT
 # --------------------------------------------------------------
-output_rds <- paste0(mysample, "_reclustered_harmony_updatedUMAP.rds")
+output_rds <- paste0(mysample, "_reClustered.rds")
 saveRDS(myObject, file=output_rds)
 

@@ -23,7 +23,7 @@ marker_prefix <- args[2]
 # -------------------------------
 # Load Seurat object
 # -------------------------------
-myRDS <- paste0(mysample, "_analysed.rds")
+myRDS <- paste0(mysample, "_reClustered.rds")
 if(!file.exists(myRDS)) stop(paste("File not found:", myRDS))
 myObject <- readRDS(myRDS)
 DefaultAssay(myObject) <- "SCT"
@@ -61,7 +61,7 @@ for(gene in valid_genes){
     FeaturePlot(myObject,
                 features = gene,
                 order = TRUE,
-                reduction = "umap.wnn",
+                reduction = "umap.wnn.harmony",
                 cols = c("lightgrey", "red"),
                 pt.size = 0.1) +
       ggtitle(gene)
