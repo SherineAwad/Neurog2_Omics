@@ -31,6 +31,17 @@ Overexpression of stablized version of Neurog2
 ![WNN by Sample](figures/cNeurog2_WNN_by_sample.png?v=1)
 
 
+## Samples are too seperated, we do harmony for batch effect 
+
+![Clusters harmony Vln1](figures/cNeurog2_Cluster_VlnPlot2_harmony.png?v=1)
+
+![Clusters harmony Vln2](figures/cNeurog2_Cluster_VlnPlot1_harmony.png?v=1)
+
+![Clusters harmony clusters](figures/cNeurog2_Clusters_harmony.png?v=1)
+
+![Clusters harmony by sample](figures/cNeurog2_WNN_by_sample_harmony.png?v=1)
+
+
 ## Marker Genes feature  plots
 
 
