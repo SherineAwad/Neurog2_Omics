@@ -49,11 +49,11 @@ myObject <- FindClusters(
 myObject <- RunUMAP(
   myObject,
   reduction = "harmony.rna",   # you can choose either rna, atac, or concatenate
-  dims = 1:30,
+  dims = 1:50,
   reduction.name = "umap.wnn.harmony",
   reduction.key = "wnnHarmony_",
-  spread = 0.8,
-  min.dist = 0.2
+  spread = 1,
+  min.dist = 0.5
 )
 
 # --------------------------------------------------------------
