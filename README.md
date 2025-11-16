@@ -101,3 +101,20 @@ Overexpression of stablized version of Neurog2
 
 
 
+## Differential Gene Expression
+
+![](figures/cNeurog2_celltype_markers_heatmap.png?v=1)
+
+![](figures/cNeurog2_celltype_top_markers_featureplot.png?v=1)
+
+![](figures/cNeurog2_celltype_markers_dotplot.png?v=1)
+
+![](figures/cNeurog2_Rod_markers_violin.png?v=1)
+
+![](figures/cNeurog2_BC_markers_violin.png?v=1)
+
+![](figures/cNeurog2_MGPC_markers_violin.png?v=1)
+
+![](figures/cNeurog2_MG_markers_violin.png?v=1)
+
+
