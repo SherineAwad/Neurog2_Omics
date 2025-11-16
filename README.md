@@ -109,12 +109,17 @@ Overexpression of stablized version of Neurog2
 
 ![](figures/cNeurog2_celltype_markers_dotplot.png?v=1)
 
+##### Rod 
 ![](figures/cNeurog2_Rod_markers_violin.png?v=1)
+
+#### BC
 
 ![](figures/cNeurog2_BC_markers_violin.png?v=1)
 
+#### MGPC
 ![](figures/cNeurog2_MGPC_markers_violin.png?v=1)
 
+#### MG
 ![](figures/cNeurog2_MG_markers_violin.png?v=1)
 
 
