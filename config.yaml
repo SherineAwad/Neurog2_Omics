@@ -1,20 +1,25 @@
-# Configuration for Seurat pipeline
+# config.yaml
 
 samples:
   - TH1
   - TH2
 
-merged_sample: cNeurog2
-markers_file: markers.txt
+merge_name: cNeurog2
 
-# Parameters for filtering (matching args[2:9])
-params:
-  nATAC1: 100000
-  nRNA1: 30000
-  nATAC2: 0
-  nRNA2: 0
-  features: 200
-  nucl: 0.5
-  tss: 8
-  mt: 1
+filter_params:
+  nATAC_max: 60000
+  nRNA_max: 40000
+  nATAC_min: 100
+  nRNA_min: 1000
+  nFeature_RNA_min: 500
+  nucleosome_signal_max: 2
+  percent_mt_max: 10
+  tss: 0
+
+markers_file: markers
+annotations_file: annotations.txt
+gtf_file: neurog2.gtf
+diffpeaks_file: cNeurog2DiffPeaks.csv
+diffpeaks_annotated: cNeurog2DiffPeaks_annotated.csv
+peak_plot: toppeaks.png
 
