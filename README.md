@@ -89,13 +89,13 @@ Overexpression of stablized version of Neurog2
 
 
 
-## Annotation: Where is AC??
+## Annotation: 
 
 
 ![Annotations](figures/cNeurog2_annotated_umap.png?v=3)
 
 
-## Cell ratio -Missing AC - 
+## Cell ratio  
 
 ![Cell ratio](figures/cNeurog2_celltype_ratio_by_sample.png?v=3)
 
