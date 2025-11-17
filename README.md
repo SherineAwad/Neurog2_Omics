@@ -53,39 +53,39 @@ Overexpression of stablized version of Neurog2
 ## Marker Genes feature  plots
 
 
-<img src="figures/cNeurog2_Abca8a_FeaturePlot.png?v=13" width="200"> <img src="figures/cNeurog2_Acta2_FeaturePlot.png?v=13" width="200"> <img src="figures/cNeurog2_Apoe_FeaturePlot.png?v=13" width="200">
+<img src="figures/cNeurog2_Abca8a_FeaturePlot.png?v=24" width="200"> <img src="figures/cNeurog2_Acta2_FeaturePlot.png?v=24" width="200"> <img src="figures/cNeurog2_Apoe_FeaturePlot.png?v=24" width="200">
 
-<img src="figures/cNeurog2_Aqp4_FeaturePlot.png?v=13" width="200"> <img src="figures/cNeurog2_Arr3_FeaturePlot.png?v=13" width="200"> <img src="figures/cNeurog2_Ascl1_FeaturePlot.png?v=13" width="200">
+<img src="figures/cNeurog2_Aqp4_FeaturePlot.png?v=24" width="200"> <img src="figures/cNeurog2_Arr3_FeaturePlot.png?v=24" width="200"> <img src="figures/cNeurog2_Ascl1_FeaturePlot.png?v=24" width="200">
 
-<img src="figures/cNeurog2_Atoh7_FeaturePlot.png?v=13" width="200"> <img src="figures/cNeurog2_Bsn_FeaturePlot.png?v=13" width="200"> <img src="figures/cNeurog2_Cabp5_FeaturePlot.png?v=13" width="200">
+<img src="figures/cNeurog2_Atoh7_FeaturePlot.png?v=24" width="200"> <img src="figures/cNeurog2_Bsn_FeaturePlot.png?v=24" width="200"> <img src="figures/cNeurog2_Cabp5_FeaturePlot.png?v=24" width="200">
 
-<img src="figures/cNeurog2_Calb1_FeaturePlot.png?v=13" width="200"> <img src="figures/cNeurog2_Calb2_FeaturePlot.png?v=13" width="200"> <img src="figures/cNeurog2_Ccr2_FeaturePlot.png?v=13" width="200">
+<img src="figures/cNeurog2_Calb1_FeaturePlot.png?v=24" width="200"> <img src="figures/cNeurog2_Calb2_FeaturePlot.png?v=24" width="200"> <img src="figures/cNeurog2_Ccr2_FeaturePlot.png?v=24" width="200">
 
-<img src="figures/cNeurog2_Chat_FeaturePlot.png?v=13" width="200"> <img src="figures/cNeurog2_Csf1r_FeaturePlot.png?v=13" width="200"> <img src="figures/cNeurog2_Elavl4_FeaturePlot.png?v=13" width="200">
+<img src="figures/cNeurog2_Chat_FeaturePlot.png?v=24" width="200"> <img src="figures/cNeurog2_Csf1r_FeaturePlot.png?v=24" width="200"> <img src="figures/cNeurog2_Elavl4_FeaturePlot.png?v=24" width="200">
 
-<img src="figures/cNeurog2_Emx1_FeaturePlot.png?v=13" width="200"> <img src="figures/cNeurog2_Gad1_FeaturePlot.png?v=13" width="200"> <img src="figures/cNeurog2_Gfap_FeaturePlot.png?v=13" width="200">
+<img src="figures/cNeurog2_Emx1_FeaturePlot.png?v=24" width="200"> <img src="figures/cNeurog2_Gad1_FeaturePlot.png?v=24" width="200"> <img src="figures/cNeurog2_Gfap_FeaturePlot.png?v=24" width="200">
 
-<img src="figures/cNeurog2_Glul_FeaturePlot.png?v=13" width="200"> <img src="figures/cNeurog2_Hes1_FeaturePlot.png?v=13" width="200"> <img src="figures/cNeurog2_Hes5_FeaturePlot.png?v=13" width="200">
+<img src="figures/cNeurog2_Glul_FeaturePlot.png?v=24" width="200"> <img src="figures/cNeurog2_Hes1_FeaturePlot.png?v=24" width="200"> <img src="figures/cNeurog2_Hes5_FeaturePlot.png?v=24" width="200">
 
-<img src="figures/cNeurog2_Insm1_FeaturePlot.png?v=13" width="200"> <img src="figures/cNeurog2_Isl1_FeaturePlot.png?v=13" width="200"> <img src="figures/cNeurog2_Lhx1_FeaturePlot.png?v=13" width="200">
+<img src="figures/cNeurog2_Insm1_FeaturePlot.png?v=24" width="200"> <img src="figures/cNeurog2_Isl1_FeaturePlot.png?v=24" width="200"> <img src="figures/cNeurog2_Lhx1_FeaturePlot.png?v=24" width="200">
 
-<img src="figures/cNeurog2_Lhx2_FeaturePlot.png?v=13" width="200"> <img src="figures/cNeurog2_Lhx4_FeaturePlot.png?v=13" width="200"> <img src="figures/cNeurog2_Malat1_FeaturePlot.png?v=13" width="200">
+<img src="figures/cNeurog2_Lhx2_FeaturePlot.png?v=24" width="200"> <img src="figures/cNeurog2_Lhx4_FeaturePlot.png?v=24" width="200"> <img src="figures/cNeurog2_Malat1_FeaturePlot.png?v=24" width="200">
 
-<img src="figures/cNeurog2_mScarlet3_FeaturePlot.png?v=13" width="200"> <img src="figures/cNeurog2_mt-Atp6_FeaturePlot.png?v=13" width="200"> <img src="figures/cNeurog2_Neurog2-9SA_FeaturePlot.png?v=13" width="200">
+<img src="figures/cNeurog2_mScarlet3_FeaturePlot.png?v=24" width="200"> <img src="figures/cNeurog2_mt-Atp6_FeaturePlot.png?v=24" width="200"> <img src="figures/cNeurog2_Neurog2-9SA_FeaturePlot.png?v=24" width="200">
 
-<img src="figures/cNeurog2_Neurog2_FeaturePlot.png?v=13" width="200"> <img src="figures/cNeurog2_Notch1_FeaturePlot.png?v=13" width="200"> <img src="figures/cNeurog2_Nrl_FeaturePlot.png?v=13" width="200">
+<img src="figures/cNeurog2_Neurog2_FeaturePlot.png?v=24" width="200"> <img src="figures/cNeurog2_Notch1_FeaturePlot.png?v=24" width="200"> <img src="figures/cNeurog2_Nrl_FeaturePlot.png?v=24" width="200">
 
-<img src="figures/cNeurog2_Olig2_FeaturePlot.png?v=13" width="200"> <img src="figures/cNeurog2_Otx2_FeaturePlot.png?v=13" width="200"> <img src="figures/cNeurog2_Pax2_FeaturePlot.png?v=13" width="200">
+<img src="figures/cNeurog2_Olig2_FeaturePlot.png?v=24" width="200"> <img src="figures/cNeurog2_Otx2_FeaturePlot.png?v=24" width="200"> <img src="figures/cNeurog2_Pax2_FeaturePlot.png?v=24" width="200">
 
-<img src="figures/cNeurog2_Pax6_FeaturePlot.png?v=13" width="200"> <img src="figures/cNeurog2_Prdm1_FeaturePlot.png?v=13" width="200"> <img src="figures/cNeurog2_Prdx6_FeaturePlot.png?v=13" width="200">
+<img src="figures/cNeurog2_Pax6_FeaturePlot.png?v=24" width="200"> <img src="figures/cNeurog2_Prdm1_FeaturePlot.png?v=24" width="200"> <img src="figures/cNeurog2_Prdx6_FeaturePlot.png?v=24" width="200">
 
-<img src="figures/cNeurog2_Rbfox3_FeaturePlot.png?v=13" width="200"> <img src="figures/cNeurog2_Rho_FeaturePlot.png?v=13" width="200"> <img src="figures/cNeurog2_Rlbp1_FeaturePlot.png?v=13" width="200">
+<img src="figures/cNeurog2_Rbfox3_FeaturePlot.png?v=24" width="200"> <img src="figures/cNeurog2_Rho_FeaturePlot.png?v=24" width="200"> <img src="figures/cNeurog2_Rlbp1_FeaturePlot.png?v=24" width="200">
 
-<img src="figures/cNeurog2_Sebox_FeaturePlot.png?v=13" width="200"> <img src="figures/cNeurog2_Slc17a7_FeaturePlot.png?v=13" width="200"> <img src="figures/cNeurog2_Slc1a3_FeaturePlot.png?v=13" width="200">
+<img src="figures/cNeurog2_Sebox_FeaturePlot.png?v=24" width="200"> <img src="figures/cNeurog2_Slc17a7_FeaturePlot.png?v=24" width="200"> <img src="figures/cNeurog2_Slc1a3_FeaturePlot.png?v=24" width="200">
 
-<img src="figures/cNeurog2_Slc6a9_FeaturePlot.png?v=13" width="200"> <img src="figures/cNeurog2_Sox11_FeaturePlot.png?v=13" width="200"> <img src="figures/cNeurog2_Sox9_FeaturePlot.png?v=13" width="200">
+<img src="figures/cNeurog2_Slc6a9_FeaturePlot.png?v=24" width="200"> <img src="figures/cNeurog2_Sox11_FeaturePlot.png?v=24" width="200"> <img src="figures/cNeurog2_Sox9_FeaturePlot.png?v=24" width="200">
 
-<img src="figures/cNeurog2_Tfap2a_FeaturePlot.png?v=13" width="200"> <img src="figures/cNeurog2_Tie1_FeaturePlot.png?v=13" width="200"> <img src="figures/cNeurog2_Vim_FeaturePlot.png?v=13" width="200">
+<img src="figures/cNeurog2_Tfap2a_FeaturePlot.png?v=24" width="200"> <img src="figures/cNeurog2_Tie1_FeaturePlot.png?v=24" width="200"> <img src="figures/cNeurog2_Vim_FeaturePlot.png?v=24" width="200">
 
 
 
@@ -93,40 +93,40 @@ Overexpression of stablized version of Neurog2
 
 # WILL NEED TO REANNOTATE 
 
-![Annotations](figures/cNeurog2_annotated_umap.png?v=1)
+![Annotations](figures/cNeurog2_annotated_umap.png?v=2)
 
 
 ## Cell ratio -Missing AC - 
 
-![Cell ratio](figures/cNeurog2_celltype_ratio_by_sample.png?v=1)
+![Cell ratio](figures/cNeurog2_celltype_ratio_by_sample.png?v=2)
 
 
 
 ## Differential Gene Expression
 
-![](figures/cNeurog2_celltype_markers_heatmap.png?v=1)
+![](figures/cNeurog2_celltype_markers_heatmap.png?v=2)
 
-![](figures/cNeurog2_celltype_top_markers_featureplot.png?v=1)
+![](figures/cNeurog2_celltype_top_markers_featureplot.png?v=2)
 
-![](figures/cNeurog2_celltype_markers_dotplot.png?v=1)
+![](figures/cNeurog2_celltype_markers_dotplot.png?v=2)
 
 ##### Rod 
-![](figures/cNeurog2_Rod_markers_violin.png?v=1)
+![](figures/cNeurog2_Rod_markers_violin.png?v=2)
 
 #### BC
 
-![](figures/cNeurog2_BC_markers_violin.png?v=1)
+![](figures/cNeurog2_BC_markers_violin.png?v=2)
 
 #### MGPC
-![](figures/cNeurog2_MGPC_markers_violin.png?v=1)
+![](figures/cNeurog2_MGPC_markers_violin.png?v=2)
 
 #### MG
-![](figures/cNeurog2_MG_markers_violin.png?v=1)
+![](figures/cNeurog2_MG_markers_violin.png?v=2)
 
 
 ## Top Differential Peaks after annotation (nearby Genes)
 
 
-![](figures/TopPeaks.png?v=1)
+![](figures/TopPeaks.png?v=2)
 
 

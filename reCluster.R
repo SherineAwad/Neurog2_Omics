@@ -37,7 +37,7 @@ myObject <- subset(myObject, cells = setdiff(colnames(myObject), cells_remove))
 myObject <- FindClusters(
   myObject,
   graph.name = "wsnn_harmony",
-  resolution = 0.1,  # merge clusters → visually closer
+  resolution = 0.5,  #changed from 0.1 to 0.5 
   algorithm = 3,
   verbose = TRUE
 )
