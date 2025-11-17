@@ -25,7 +25,7 @@ if (!"wsnn_harmony" %in% names(myObject@graphs)) stop("wsnn_harmony missing!")
 # REMOVE CLUSTERS 11 AND 19
 # --------------------------------------------------------------
 Idents(myObject) <- "seurat_clusters"
-clusters_to_remove <- c("11","19","20")
+clusters_to_remove <- c("11","19","26")
 cells_remove <- WhichCells(myObject, idents = clusters_to_remove)
 myObject <- subset(myObject, cells = setdiff(colnames(myObject), cells_remove))
 
@@ -69,7 +69,7 @@ png(file=figure_name, width=1200, height=800)
 print(
   DimPlot(myObject, reduction = "umap.wnn.harmony",
           group.by = "seurat_clusters", label=TRUE, repel=TRUE) +
-    ggtitle("Reclustered (Removed 11 & 19) - Updated Harmony UMAP")
+    ggtitle("Reclustered (Removed 11,19, &26) - Updated Harmony UMAP")
 )
 dev.off()
 
