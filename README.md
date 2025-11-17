@@ -91,15 +91,13 @@ Overexpression of stablized version of Neurog2
 
 ## Annotation: Where is AC??
 
-# WILL NEED TO REANNOTATE 
 
-![Annotations](figures/cNeurog2_annotated_umap.png?v=2)
+![Annotations](figures/cNeurog2_annotated_umap.png?v=3)
 
 
 ## Cell ratio -Missing AC - 
 
-![Cell ratio](figures/cNeurog2_celltype_ratio_by_sample.png?v=2)
-
+![Cell ratio](figures/cNeurog2_celltype_ratio_by_sample.png?v=3)
 
 
 ## Differential Gene Expression
