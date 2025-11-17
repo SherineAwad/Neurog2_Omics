@@ -38,9 +38,9 @@ myObject <- RunSVD(myObject)
 myObject <- RunUMAP(myObject, dims = 2:30, reduction = 'lsi', reduction.name = "umap.atac", reduction.key = "atacUMAP_")
 
 #### Apply Harmony to ATAC LSI - use project.dim = FALSE
-myObject <- RunHarmony(myObject, 
-                       group.by.vars = "orig.ident", 
-                       reduction = "lsi", 
+myObject <- RunHarmony(myObject,
+                       group.by.vars = "orig.ident",
+                       reduction = "lsi",
                        assay.use = "ATAC",
                        project.dim = FALSE,
                        reduction.save = "harmony.atac")
@@ -60,7 +60,7 @@ myObject <- FindMultiModalNeighbors(
   reduction.list = list("pca", "lsi"),
   dims.list = list(1:30, 2:20),
   knn.graph.name = "wknn",
-  snn.graph.name = "wsnn", 
+  snn.graph.name = "wsnn",
   weighted.nn.name = "weighted.nn"
 )
 

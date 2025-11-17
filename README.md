@@ -127,4 +127,6 @@ Overexpression of stablized version of Neurog2
 
 ![](figures/TopPeaks.png?v=2)
 
+![](figures/peak_category_by_cluster.png?v=1)
+
 ![](figures/peak_categories.png?v=1)
