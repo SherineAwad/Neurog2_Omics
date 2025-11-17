@@ -42,13 +42,19 @@ Overexpression of stablized version of Neurog2
 ![Clusters harmony by sample](figures/cNeurog2_WNN_by_sample_harmony.png?v=3)
 
 
-## Remove cluster 11 and 19 and reCluster 
+## Remove cluster 11, 19, and 20 and reCluster 
 
 
-![reCluster by sample](figures/cNeurog2_Recluster_BySample.png?v=3)
+![reCluster by sample](figures/cNeurog2_Recluster_BySample.png?v=4)
 
-![reCluster by Clusters](figures/cNeurog2_Recluster_Clusters.png?v=3)
+![reCluster by Clusters](figures/cNeurog2_Recluster_Clusters.png?v=4)
 
+
+
+### UMI per cluster for investigating poor cells
+
+
+![](figures/cNeurog2_UMI_Violin_HarmonyWNN.png?v=1)
 
 ## Marker Genes feature  plots
 
@@ -121,6 +127,13 @@ Overexpression of stablized version of Neurog2
 
 
 ## Top Differential Peaks after annotation (nearby Genes)
+
+#### Starting with: 
+
+| Metric          | Count   |
+|-----------------|---------|
+| Number of cells | 17,360  |
+| Number of genes | 213,119 |
 
 
 ![](figures/TopPeaks.png?v=2)

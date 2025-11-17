@@ -24,10 +24,8 @@ if (!"wsnn_harmony" %in% names(myObject@graphs)) stop("wsnn_harmony missing!")
 # --------------------------------------------------------------
 # REMOVE CLUSTERS 11 AND 19
 # --------------------------------------------------------------
-# Make sure Idents are set to seurat_clusters
 Idents(myObject) <- "seurat_clusters"
-
-clusters_to_remove <- c("11","19")
+clusters_to_remove <- c("11","19","20")
 cells_remove <- WhichCells(myObject, idents = clusters_to_remove)
 myObject <- subset(myObject, cells = setdiff(colnames(myObject), cells_remove))
 
@@ -37,7 +35,7 @@ myObject <- subset(myObject, cells = setdiff(colnames(myObject), cells_remove))
 myObject <- FindClusters(
   myObject,
   graph.name = "wsnn_harmony",
-  resolution = 0.5,  #changed from 0.1 to 0.5 
+  resolution = 0.5,
   algorithm = 3,
   verbose = TRUE
 )
@@ -45,10 +43,9 @@ myObject <- FindClusters(
 # --------------------------------------------------------------
 # UPDATE UMAP ON ORIGINAL HARMONY EMBEDDINGS
 # --------------------------------------------------------------
-# Keep the original Harmony embeddings: "harmony.rna" + "harmony.atac"
 myObject <- RunUMAP(
   myObject,
-  reduction = "harmony.rna",   # you can choose either rna, atac, or concatenate
+  reduction = "harmony.rna",
   dims = 1:50,
   reduction.name = "umap.wnn.harmony",
   reduction.key = "wnnHarmony_",
@@ -66,6 +63,7 @@ myObject[["umap.wnn.harmony"]]@cell.embeddings <- coords
 # --------------------------------------------------------------
 # PLOTS
 # --------------------------------------------------------------
+# 1. UMAP by cluster
 figure_name <- paste0(mysample, "_Recluster_Clusters.png")
 png(file=figure_name, width=1200, height=800)
 print(
@@ -75,12 +73,29 @@ print(
 )
 dev.off()
 
+# 2. UMAP by sample
 figure_name <- paste0(mysample, "_Recluster_BySample.png")
 png(file=figure_name, width=1200, height=800)
 print(
   DimPlot(myObject, reduction = "umap.wnn.harmony",
           group.by = "orig.ident", repel=TRUE) +
     ggtitle("Reclustered by Sample - Updated Harmony UMAP")
+)
+dev.off()
+
+# 3. Violin plot of UMI per cluster (detect poor-quality cells)
+# Ensure cluster identity reflects Harmony WNN clusters
+myObject$wnn_harmony_clusters <- Idents(myObject)  # store Harmony WNN clusters in a new column
+Idents(myObject) <- "wnn_harmony_clusters"
+
+# Violin plot of UMI per Harmony WNN cluster
+DefaultAssay(myObject) <- "RNA"
+figure_name <- paste0(mysample, "_UMI_Violin_HarmonyWNN.png")
+png(file = figure_name, width = 1200, height = 800)
+print(
+  VlnPlot(myObject, features = "nCount_RNA", group.by = "wnn_harmony_clusters") +
+    ggtitle("UMI Counts per Harmony WNN Cluster - Identify Poor-Quality Cells") +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1))
 )
 dev.off()
 
