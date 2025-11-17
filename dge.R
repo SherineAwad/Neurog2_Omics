@@ -4,6 +4,7 @@ library(Seurat)
 library(ggplot2)
 library(patchwork)
 library(dplyr)
+library(UpSetR)  # for UpSet plot
 set.seed(1234)
 
 args <- commandArgs(trailingOnly = TRUE)
@@ -23,18 +24,14 @@ cat("Sample:", mysample, "\n")
 cat("Number of cells:", ncol(myObject), "\n")
 cat("Number of genes:", nrow(myObject), "\n")
 
-# The cell types are already in Idents from the annotation script
 celltypes <- levels(Idents(myObject))
 cat("Available cell types:", paste(celltypes, collapse = ", "), "\n")
 
-# Set default assay to RNA for DGE
 DefaultAssay(myObject) <- "RNA"
 
-# Check if SCT assay exists and prepare it properly
 if ("SCT" %in% names(myObject@assays)) {
   cat("Using existing SCT assay...\n")
   DefaultAssay(myObject) <- "SCT"
-  # Prepare SCT for FindMarkers
   myObject <- PrepSCTFindMarkers(myObject)
 } else {
   cat("Performing SCTransform normalization...\n")
@@ -47,7 +44,6 @@ if ("SCT" %in% names(myObject@assays)) {
 # --------------------------------------------------------------
 cat("\n=== FINDING MARKERS BETWEEN CELL TYPES ===\n")
 
-# Find all markers for each cell type
 celltype_markers <- FindAllMarkers(
   myObject,
   assay = "SCT",
@@ -58,10 +54,8 @@ celltype_markers <- FindAllMarkers(
   verbose = TRUE
 )
 
-# Save all markers
 write.csv(celltype_markers, paste0(mysample, "_all_celltype_markers.csv"), row.names = FALSE)
 
-# Get top markers per cell type
 top_markers <- celltype_markers %>%
   group_by(cluster) %>%
   top_n(n = 5, wt = avg_log2FC)
@@ -74,12 +68,10 @@ print(top_markers)
 # --------------------------------------------------------------
 cat("\n=== CREATING VISUALIZATIONS ===\n")
 
-# 1. Heatmap of top markers
 top10_markers <- celltype_markers %>%
   group_by(cluster) %>%
   top_n(n = 10, wt = avg_log2FC)
 
-# Get genes that exist in scale.data
 available_genes <- rownames(myObject@assays$SCT@scale.data)
 top10_markers_filtered <- top10_markers %>% filter(gene %in% available_genes)
 
@@ -89,9 +81,11 @@ if (nrow(top10_markers_filtered) > 0) {
     features = top10_markers_filtered$gene,
     assay = "SCT",
     label = TRUE,
-    size = 3
-  ) + theme(axis.text.y = element_text(size = 6))
-  
+    size = 4   # increased font size
+  ) +
+    scale_fill_gradient2(low = "blue", mid = "white", high = "red", midpoint = 0) +  # blue-white-red
+    theme(axis.text.y = element_text(size = 10))  # larger y-axis labels
+
   png(paste0(mysample, "_celltype_markers_heatmap.png"), width = 1200, height = 1000)
   print(heatmap_plot)
   dev.off()
@@ -99,7 +93,6 @@ if (nrow(top10_markers_filtered) > 0) {
   cat("No genes found in scale.data for heatmap\n")
 }
 
-# 2. Dot plot of top markers
 dot_plot <- DotPlot(
   myObject,
   features = unique(top10_markers$gene),
@@ -112,7 +105,6 @@ png(paste0(mysample, "_celltype_markers_dotplot.png"), width = 1200, height = 80
 print(dot_plot)
 dev.off()
 
-# 3. Feature plots for top markers on umap.wnn.harmony
 top5_genes <- top_markers$gene[1:min(9, nrow(top_markers))]
 
 feature_plots <- FeaturePlot(
@@ -130,13 +122,12 @@ png(paste0(mysample, "_celltype_top_markers_featureplot.png"), width = 1500, hei
 print(feature_grid)
 dev.off()
 
-# 4. Violin plots for top markers per cell type
 for (celltype in unique(top_markers$cluster)) {
-  celltype_genes <- top_markers %>% 
+  celltype_genes <- top_markers %>%
     filter(cluster == celltype) %>%
     pull(gene) %>%
     head(3)
-  
+
   if (length(celltype_genes) > 0) {
     vln_plot <- VlnPlot(
       myObject,
@@ -146,7 +137,7 @@ for (celltype in unique(top_markers$cluster)) {
       pt.size = 0,
       assay = "SCT"
     )
-    
+
     png(paste0(mysample, "_", celltype, "_markers_violin.png"), width = 1200, height = 400)
     print(vln_plot)
     dev.off()
@@ -171,6 +162,34 @@ summary_stats <- celltype_markers %>%
 write.csv(summary_stats, paste0(mysample, "_celltype_DGE_summary.csv"))
 
 # --------------------------------------------------------------
+# UPSERT PLOT: Cluster-specific DE gene intersections
+# --------------------------------------------------------------
+cat("\n=== CREATING UPSET PLOT ===\n")
+
+# Prepare list of DE genes per cluster
+cluster_genes <- split(celltype_markers$gene, celltype_markers$cluster)
+
+# Create presence/absence matrix
+all_genes <- unique(celltype_markers$gene)
+gene_matrix <- sapply(cluster_genes, function(x) all_genes %in% x)
+rownames(gene_matrix) <- all_genes
+
+# Convert logical to 0/1
+gene_matrix <- as.data.frame(gene_matrix) %>% mutate_all(as.numeric)
+
+# Create UpSet plot
+png(paste0(mysample, "_celltype_DE_upset.png"), width = 1200, height = 800)
+upset(gene_matrix,
+      nsets = length(cluster_genes),
+      nintersects = 30,
+      order.by = "freq",
+      mb.ratio = c(0.6, 0.4),
+      text.scale = 1.5,
+      mainbar.y.label = "DE Gene Intersections",
+      sets.x.label = "Number of DE Genes per Cluster")
+dev.off()
+
+# --------------------------------------------------------------
 # SAVE FINAL OBJECT
 # --------------------------------------------------------------
 cat("\n=== SAVING RESULTS ===\n")
@@ -191,6 +210,8 @@ cat("- ", mysample, "_celltype_markers_heatmap.png\n")
 cat("- ", mysample, "_celltype_markers_dotplot.png\n")
 cat("- ", mysample, "_celltype_top_markers_featureplot.png\n")
 cat("- ", mysample, "_celltype_DGE_summary.csv\n")
+cat("- ", mysample, "_celltype_DE_upset.png\n")
 cat("- ", mysample, "_with_DGE.rds\n")
 cat("Total significant marker genes (p_adj < 0.05):", sum(celltype_markers$p_val_adj < 0.05), "\n")
 cat("Average markers per cell type:", round(mean(summary_stats$n_genes), 1), "\n")
+
