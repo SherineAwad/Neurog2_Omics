@@ -100,24 +100,24 @@ Overexpression of stablized version of Neurog2
 
 ## Differential Gene Expression
 
-![](figures/cNeurog2_celltype_markers_heatmap.png?v=2)
+![](figures/cNeurog2_celltype_markers_heatmap.png?v=3)
 
-![](figures/cNeurog2_celltype_top_markers_featureplot.png?v=2)
+![](figures/cNeurog2_celltype_top_markers_featureplot.png?v=3)
 
-![](figures/cNeurog2_celltype_markers_dotplot.png?v=2)
+![](figures/cNeurog2_celltype_markers_dotplot.png?v=3)
 
 ##### Rod 
-![](figures/cNeurog2_Rod_markers_violin.png?v=2)
+![](figures/cNeurog2_Rod_markers_violin.png?v=3)
 
 #### BC
 
-![](figures/cNeurog2_BC_markers_violin.png?v=2)
+![](figures/cNeurog2_BC_markers_violin.png?v=3)
 
 #### MGPC
-![](figures/cNeurog2_MGPC_markers_violin.png?v=2)
+![](figures/cNeurog2_MGPC_markers_violin.png?v=3)
 
 #### MG
-![](figures/cNeurog2_MG_markers_violin.png?v=2)
+![](figures/cNeurog2_MG_markers_violin.png?v=3)
 
 
 ## Top Differential Peaks after annotation (nearby Genes)
