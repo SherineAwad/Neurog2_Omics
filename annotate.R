@@ -84,7 +84,6 @@ cat("Saved UMAP plot to:", umap_file, "\n")
 
 # Generate cell type ratio plot by sample
 # Assuming the sample information is stored in metadata, adjust the column name as needed
-# Common column names for sample information: "sample", "orig.ident", "Sample", etc.
 sample_column <- NULL
 possible_sample_cols <- c("sample", "orig.ident", "Sample", "sample_id")
 
@@ -96,16 +95,16 @@ for (col in possible_sample_cols) {
 }
 
 if (is.null(sample_column)) {
-  # If no sample column found, use the first metadata column as sample identifier
   sample_column <- colnames(myObject@meta.data)[1]
   cat("No standard sample column found. Using", sample_column, "as sample identifier\n")
 } else {
   cat("Using", sample_column, "as sample identifier\n")
 }
 
-# Calculate cell type ratios by sample
+# --- FIX: Set CellType as factor with desired order ---
 cell_type_ratios <- myObject@meta.data %>%
-  mutate(CellType = as.character(Idents(myObject)),
+  mutate(CellType = factor(as.character(Idents(myObject)),
+                           levels = c('MG', 'MGPC', 'BC', 'AC', 'Rod', 'Cones')),
          Sample = .data[[sample_column]]) %>%
   group_by(Sample, CellType) %>%
   summarise(Count = n(), .groups = 'drop') %>%
@@ -172,3 +171,4 @@ cat("- Summary table:", table_file, "\n")
 sink()
 
 cat("Annotation report saved to:", report_file, "\n")
+

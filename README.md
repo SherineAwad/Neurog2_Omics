@@ -101,7 +101,7 @@ Overexpression of stablized version of Neurog2
 
 ## Cell ratio  
 
-![Cell ratio](figures/cNeurog2_celltype_ratio_by_sample.png?v=5)
+![Cell ratio](figures/cNeurog2_celltype_ratio_by_sample.png?v=6)
 
 ## Differential Gene Expression
 
