@@ -1,7 +1,7 @@
 #!/usr/bin/env Rscript
 
 # ======================================
-# Full functional heatmap with Neurog2-S9A and expanded gene lists
+# Full functional heatmap with forced Neurog2-S9A
 # ======================================
 
 suppressPackageStartupMessages({
@@ -24,25 +24,13 @@ output_png <- "Neurog2-S9A_heatmap.png"
 # ----------------------------
 # Define gene sets using exact CSV names
 # ----------------------------
-Transgene <- c("Neurog2-S9A")
+Transgene <- "Neurog2-S9A"   # force inclusion
 
-MG_genes <- c(
-  "Rlbp1", "Glul", "Sox9", "Aqp4", "Slc1a3", "Vim"
-)
+MG_genes <- c("Rlbp1", "Glul", "Sox9", "Aqp4", "Slc1a3", "Vim")
+MGPC_genes <- c("Ascl1", "Rgs13", "Dll1", "Nuak1", "Mapt", "Slc44a5")
+Progenitor_genes <- c("Hes1", "Hes5", "Pax6", "Sox2", "Nestin", "Ccnd1", "Mki67")
+Neuronal_genes <- c("Pou4f2", "Otx2", "Crx", "Vsx1", "Tubb3", "NeuN")
 
-MGPC_genes <- c(
-  "Ascl1", "Rgs13", "Dll1", "Nuak1", "Mapt", "Slc44a5"
-)
-
-Progenitor_genes <- c(
-  "Hes1", "Hes5", "Pax6", "Sox2", "Nestin", "Ccnd1", "Mki67"
-)
-
-Neuronal_genes <- c(
-  "Pou4f2", "Otx2", "Crx", "Vsx1", "Tubb3", "NeuN"
-)
-
-# Combine into dictionary
 gene_dict <- list(
   Transgene = Transgene,
   MG_markers = MG_genes,
@@ -51,7 +39,7 @@ gene_dict <- list(
   Neuronal_markers = Neuronal_genes
 )
 
-all_genes <- unique(unlist(gene_dict))
+all_genes <- unique(c(Transgene, MG_genes, MGPC_genes, Progenitor_genes, Neuronal_genes))
 
 # ----------------------------
 # Load DE CSV
@@ -59,16 +47,26 @@ all_genes <- unique(unlist(gene_dict))
 cat("Loading DE CSV:", de_csv, "\n")
 de <- read.csv(de_csv, stringsAsFactors = FALSE)
 
-# Check which genes exist in CSV
-genes_found <- all_genes[all_genes %in% de$gene]
-genes_missing <- setdiff(all_genes, genes_found)
-if(length(genes_missing) > 0){
-  warning("These genes were not found in DE CSV: ", paste(genes_missing, collapse = ", "))
+# ----------------------------
+# Force Neurog2-S9A presence
+# ----------------------------
+# If Neurog2-S9A is missing, create a fake row with zeros for plotting
+if(!Transgene %in% de$gene){
+  warning("Neurog2-S9A not found in CSV. Adding it with zero expression.")
+  clusters <- unique(de$cluster)
+  new_row <- data.frame(
+    gene = Transgene,
+    cluster = rep(clusters, each = 1),
+    avg_log2FC = 0
+  )
+  de <- bind_rows(de, new_row)
 }
 
-# Subset DE to only genes found
+# ----------------------------
+# Subset DE to only genes in our list
+# ----------------------------
 heatmap_de <- de %>%
-  filter(gene %in% genes_found) %>%
+  filter(gene %in% all_genes) %>%
   select(gene, cluster, avg_log2FC) %>%
   pivot_wider(names_from = cluster, values_from = avg_log2FC, values_fill = 0)
 
@@ -79,24 +77,23 @@ heatmap_matrix$gene <- NULL
 heatmap_matrix <- as.matrix(heatmap_matrix)
 
 # ----------------------------
-# Row annotation (gene type)
+# Row annotation
 # ----------------------------
 row_annotation <- data.frame(
   GeneType = sapply(rownames(heatmap_matrix), function(g){
-    if(g %in% gene_dict$Transgene) return("Neurog2-S9A")
-    if(g %in% gene_dict$MG_markers) return("MG")
-    if(g %in% gene_dict$MGPC_markers) return("MGPC")
-    if(g %in% gene_dict$Progenitor_markers) return("Progenitor")
-    if(g %in% gene_dict$Neuronal_markers) return("Neuronal")
+    if(g == Transgene) return("Neurog2-S9A")
+    if(g %in% MG_genes) return("MG")
+    if(g %in% MGPC_genes) return("MGPC")
+    if(g %in% Progenitor_genes) return("Progenitor")
+    if(g %in% Neuronal_genes) return("Neuronal")
     return("Other")
   })
 )
 rownames(row_annotation) <- rownames(heatmap_matrix)
 
 # ----------------------------
-# Ensure gene types are grouped in heatmap
+# Force grouping by gene type
 # ----------------------------
-# Order of rows: Transgene, MG, MGPC, Progenitor, Neuronal
 gene_type_levels <- c("Neurog2-S9A", "MG", "MGPC", "Progenitor", "Neuronal", "Other")
 row_annotation$GeneType <- factor(row_annotation$GeneType, levels = gene_type_levels)
 heatmap_matrix <- heatmap_matrix[order(row_annotation$GeneType), ]
@@ -119,7 +116,7 @@ cat("Plotting heatmap to:", output_png, "\n")
 png(output_png, width = 1800, height = 1200, res = 150)
 pheatmap(
   heatmap_matrix,
-  cluster_rows = FALSE,   # keep our grouped order
+  cluster_rows = FALSE,   # keep our ordered groups
   cluster_cols = TRUE,
   fontsize_row = 10,
   fontsize_col = 12,

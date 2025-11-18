@@ -131,9 +131,8 @@ celltype_markers <- FindAllMarkers(
 
 ##### Select Neurog2-S9A and seletced genes heatmap 
 
-## will ad neurog2-s9a shortly 
 
-![](figures/Neurog2-S9A_heatmap.png?v=2)
+![](figures/Neurog2-S9A_heatmap.png?v=3)
 
 ##### Select Neurog2-S9A and top markers heatmap 
 
