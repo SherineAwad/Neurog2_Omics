@@ -1,7 +1,7 @@
 #!/usr/bin/env Rscript
 
 # ============================
-# Full DE heatmap script (No Seurat required)
+# Full DE Heatmap Script (Top N markers per cluster)
 # ============================
 
 suppressPackageStartupMessages({
@@ -16,13 +16,17 @@ suppressPackageStartupMessages({
 # ----------------------------
 args <- commandArgs(trailingOnly = TRUE)
 if(length(args) < 2){
-  stop("Usage: Rscript plot_DE_heatmap.R <DE_csv_file> <gene_of_interest>")
+  stop("Usage: Rscript plot_DE_heatmap.R <DE_csv_file> <top_N_markers>")
 }
 
 de_csv <- args[1]        # CSV file with DE results
-gene_query <- args[2]    # e.g., "Neurog2_S9A"
+top_n <- as.numeric(args[2])
 
-output_png <- paste0(gene_query, "_TopMarkers_heatmap.png")
+if(is.na(top_n) || top_n <= 0){
+  stop("Please provide a valid number for top_N_markers")
+}
+
+output_png <- paste0("Top", top_n, "_Markers_heatmap.png")
 
 # ----------------------------
 # Load DE CSV
@@ -32,38 +36,32 @@ de <- read.csv(de_csv, stringsAsFactors = FALSE)
 
 # Fix gene names if they contain special characters (optional)
 de$gene <- gsub("-", "_", de$gene)
-gene_query <- gsub("-", "_", gene_query)
-
-if(!gene_query %in% de$gene){
-  stop(paste("Gene", gene_query, "not found in DE CSV"))
-}
 
 # ----------------------------
-# Select genes for heatmap
+# Select top N markers per cluster
 # ----------------------------
-# Include transgene
-heatmap_genes <- gene_query
-
-# Top 10 markers per cluster using smallest p_val_adj
 top_markers <- de %>%
-  filter(gene != gene_query) %>%
   group_by(cluster) %>%
-  arrange(p_val_adj) %>%      
-  slice_head(n = 10) %>%        
-  pull(gene)
+  arrange(p_val_adj) %>%
+  slice_head(n = top_n) %>%
+  ungroup() %>%
+  pull(gene) %>%
+  unique()
 
-heatmap_genes <- unique(c(heatmap_genes, top_markers))
-
-cat("Genes included in heatmap:\n")
-print(heatmap_genes)
+cat("Number of unique genes included in heatmap:", length(top_markers), "\n")
+cat("Genes included in heatmap (first 20 shown):\n")
+print(head(top_markers, 20))
 
 # ----------------------------
-# Prepare matrix: genes x clusters (with fixed order)
+# Fixed cluster order
 # ----------------------------
-cluster_order <- c("MG", "MGPC", "BC", "AC", "Rod", "Cones")
+cluster_order <- c('MG', 'MGPC', 'BC', 'AC', 'Rod', 'Cones')
 
+# ----------------------------
+# Prepare matrix: genes x clusters
+# ----------------------------
 heatmap_df <- de %>%
-  filter(gene %in% heatmap_genes) %>%
+  filter(gene %in% top_markers) %>%
   select(gene, cluster, avg_log2FC) %>%
   mutate(cluster = factor(cluster, levels = cluster_order)) %>%
   pivot_wider(names_from = cluster, values_from = avg_log2FC, values_fill = 0)
@@ -73,7 +71,12 @@ heatmap_matrix <- as.data.frame(heatmap_df)
 rownames(heatmap_matrix) <- heatmap_matrix$gene
 heatmap_matrix$gene <- NULL
 
-# Enforce exact column order
+# Ensure exact column order and fill missing clusters with 0
+for(cl in cluster_order){
+  if(!cl %in% colnames(heatmap_matrix)){
+    heatmap_matrix[[cl]] <- 0
+  }
+}
 heatmap_matrix <- heatmap_matrix[, cluster_order, drop = FALSE]
 
 # ----------------------------
@@ -84,11 +87,11 @@ png(output_png, width = 1500, height = 1200, res = 150)
 pheatmap(
   heatmap_matrix,
   cluster_rows = TRUE,
-  cluster_cols = FALSE,   # do not reorder columns
+  cluster_cols = FALSE,  # keep fixed column order
   fontsize_row = 10,
   fontsize_col = 10,
   color = colorRampPalette(c("blue", "white", "red"))(100),
-  main = paste("Top markers +", gene_query),
+  main = paste("Top", top_n, "markers per cluster"),
   display_numbers = FALSE,
   border_color = "grey60"
 )

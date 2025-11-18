@@ -118,8 +118,8 @@ celltype_markers <- FindAllMarkers(
   myObject,
   assay = "SCT",
   only.pos = TRUE,
-  min.pct = 0.1,
-  logfc.threshold = 0.05,
+  min.pct = 0.25,      
+  logfc.threshold = 0.25,
   test.use = "wilcox",
   verbose = TRUE
 )
@@ -127,21 +127,21 @@ celltype_markers <- FindAllMarkers(
 
 # 📝📝📝📝 Download DGE 
 
-[Download DGE csv](https://docs.google.com/spreadsheets/d/1UjwHjkFK80CwosLBU8T7LFh20g9MEF8urONxpfuEfyU/edit?usp=sharing)
+[Download DGE csv](https://docs.google.com/spreadsheets/d/1ikiwg-Jhwwz26qm5zFf-BwnmkKIXQIhMWlMsMz89rSM/edit?usp=sharing)
 
 
 ##### Select Neurog2-S9A and top 10 markers ranked based on p_val_adj heatmap 
 
-![](figures/Neurog2-9SATopMarkers_heatmap.png?v=4) 
+![](figures/Top10_Markers_heatmap.png?v=1) 
 
 
 #### Top markers heatmap  
 
-![](figures/cNeurog2_celltype_markers_heatmap.png?v=6)
+![](figures/cNeurog2_celltype_markers_heatmap.png?v=8)
 
-![](figures/cNeurog2_celltype_top_markers_featureplot.png?v=6)
+![](figures/cNeurog2_celltype_top_markers_featureplot.png?v=8)
 
-![](figures/cNeurog2_celltype_markers_dotplot.png?v=6)
+![](figures/cNeurog2_celltype_markers_dotplot.png?v=8)
 
 ## Top Differential Peaks after annotation (nearby Genes)
 

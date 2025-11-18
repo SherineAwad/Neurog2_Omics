@@ -57,8 +57,8 @@ celltype_markers <- FindAllMarkers(
   myObject,
   assay = "SCT",
   only.pos = TRUE,
-  min.pct = 0.1,      # relaxed to capture lowly expressed genes
-  logfc.threshold = 0.05,
+  min.pct = 0.25,      
+  logfc.threshold = 0.25,
   test.use = "wilcox",
   verbose = TRUE
 )
@@ -146,7 +146,6 @@ dev.off()
 cat("\n=== SAVING RESULTS ===\n")
 myObject@misc$celltype_markers <- celltype_markers
 myObject@misc$top_markers <- top_markers
-myObject@misc$dge_summary <- summary_stats
 saveRDS(myObject, file = paste0(mysample, "_with_DGE.rds"))
 
 # --------------------------------------------------------------
