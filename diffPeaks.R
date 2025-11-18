@@ -8,9 +8,18 @@ library(Matrix)
 library(dplyr)
 set.seed(1234)
 
+
+library(future)
+
+plan(sequential)   # stays the same (or 'multicore' if you want parallel)
+
+# 80 GB limit
+options(future.globals.maxSize = 80 * 1024^3)
+
+
 args <- commandArgs(trailingOnly = TRUE)
 mysample <- args[1] 
-myRDS <- paste(mysample, "_annotated.rds", sep="")
+myRDS <- paste(mysample, "_with_DGE.rds", sep="")
 myRDS
 
 myObject <- readRDS(myRDS)
