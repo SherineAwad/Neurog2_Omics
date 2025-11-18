@@ -70,7 +70,7 @@ if ("umap.wnn.harmony" %in% names(myObject@reductions)) {
 umap_plot <- DimPlot(myObject,
                      reduction = reduction_to_use,
                      label = TRUE,
-                     label.size = 3,
+                     label.size = 3, pt.size = 1.5,
                      repel = TRUE) +
   ggtitle(paste(mysample, "- Annotated Cell Types")) +
   theme(plot.title = element_text(hjust = 0.5))
@@ -104,7 +104,7 @@ if (is.null(sample_column)) {
 # --- FIX: Set CellType as factor with desired order ---
 cell_type_ratios <- myObject@meta.data %>%
   mutate(CellType = factor(as.character(Idents(myObject)),
-                           levels = c('MG', 'MGPC', 'BC', 'AC', 'Rod', 'Cones')),
+	       levels = c('Cones', 'Rod', 'AC', 'BC', 'MGPC', 'MG')),	
          Sample = .data[[sample_column]]) %>%
   group_by(Sample, CellType) %>%
   summarise(Count = n(), .groups = 'drop') %>%
