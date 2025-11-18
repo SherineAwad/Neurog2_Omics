@@ -142,10 +142,10 @@ Overexpression of stablized version of Neurog2
 
 
 
-## NOT DONE YET: Top Differential Peaks after annotation (nearby Genes)
+## Top Differential Peaks after annotation (nearby Genes)
 
-![](figures/TopPeaks.png?v=2)
+![](figures/toppeaks.png?v=3)
 
-![](figures/peak_category_by_cluster.png?v=1)
+![](figures/peak_category_by_cluster.png?v=2)
 
-![](figures/peak_categories.png?v=1)
+![](figures/peak_categories.png?v=2)
