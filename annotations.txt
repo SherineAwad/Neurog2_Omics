@@ -7,7 +7,7 @@ cluster,cell_type
 7,MG
 8,MG
 10,MG
-20,MG
+20,AC
 17,MG
 12,Rod
 13,Rod
