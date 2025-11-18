@@ -7,6 +7,15 @@ library(dplyr)
 library(UpSetR)  # for UpSet plot
 set.seed(1234)
 
+
+library(future)
+
+plan(sequential)   # stays the same (or 'multicore' if you want parallel)
+
+# 80 GB limit
+options(future.globals.maxSize = 80 * 1024^3)
+
+
 args <- commandArgs(trailingOnly = TRUE)
 mysample <- args[1]
 
@@ -48,8 +57,8 @@ celltype_markers <- FindAllMarkers(
   myObject,
   assay = "SCT",
   only.pos = TRUE,
-  min.pct = 0.25,
-  logfc.threshold = 0.25,
+  min.pct = 0.1,      # relaxed to capture lowly expressed genes
+  logfc.threshold = 0.05,
   test.use = "wilcox",
   verbose = TRUE
 )
@@ -76,7 +85,7 @@ available_genes <- rownames(myObject@assays$SCT@scale.data)
 top10_markers_filtered <- top10_markers %>% filter(gene %in% available_genes)
 
 if (nrow(top10_markers_filtered) > 0) {
-  # --- FIX: Set the order of cells for the heatmap ---
+  # Heatmap
   Idents(myObject) <- factor(Idents(myObject), levels = c('MG', 'MGPC', 'BC', 'AC', 'Rod', 'Cones'))
 
   heatmap_plot <- DoHeatmap(
@@ -84,11 +93,11 @@ if (nrow(top10_markers_filtered) > 0) {
     features = top10_markers_filtered$gene,
     assay = "SCT",
     label = TRUE,
-    size = 4,   # increased font size
+    size = 4,
     cells = WhichCells(myObject, idents = levels(Idents(myObject)))
   ) +
-    scale_fill_gradient2(low = "blue", mid = "white", high = "red", midpoint = 0) +  # blue-white-red
-    theme(axis.text.y = element_text(size = 10))  # larger y-axis labels
+    scale_fill_gradient2(low = "blue", mid = "white", high = "red", midpoint = 0) +
+    theme(axis.text.y = element_text(size = 10))
 
   png(paste0(mysample, "_celltype_markers_heatmap.png"), width = 1200, height = 1000)
   print(heatmap_plot)
@@ -97,6 +106,7 @@ if (nrow(top10_markers_filtered) > 0) {
   cat("No genes found in scale.data for heatmap\n")
 }
 
+# Dot plot
 dot_plot <- DotPlot(
   myObject,
   features = unique(top10_markers$gene),
@@ -109,6 +119,7 @@ png(paste0(mysample, "_celltype_markers_dotplot.png"), width = 1200, height = 80
 print(dot_plot)
 dev.off()
 
+# Feature plots (robust to 1 gene)
 top5_genes <- top_markers$gene[1:min(9, nrow(top_markers))]
 
 feature_plots <- FeaturePlot(
@@ -121,87 +132,21 @@ feature_plots <- FeaturePlot(
   combine = FALSE
 )
 
-feature_grid <- wrap_plots(feature_plots, ncol = 3)
 png(paste0(mysample, "_celltype_top_markers_featureplot.png"), width = 1500, height = 1200)
-print(feature_grid)
-dev.off()
-
-for (celltype in unique(top_markers$cluster)) {
-  celltype_genes <- top_markers %>%
-    filter(cluster == celltype) %>%
-    pull(gene) %>%
-    head(3)
-
-  if (length(celltype_genes) > 0) {
-    vln_plot <- VlnPlot(
-      myObject,
-      features = celltype_genes,
-      idents = celltype,
-      ncol = 3,
-      pt.size = 0,
-      assay = "SCT"
-    )
-
-    png(paste0(mysample, "_", celltype, "_markers_violin.png"), width = 1200, height = 400)
-    print(vln_plot)
-    dev.off()
-  }
+if(length(feature_plots) == 1){
+  print(feature_plots[[1]])
+} else {
+  print(wrap_plots(feature_plots, ncol = 3))
 }
-
-# --------------------------------------------------------------
-# SUMMARY STATISTICS
-# --------------------------------------------------------------
-cat("\n=== GENERATING SUMMARY ===\n")
-
-summary_stats <- celltype_markers %>%
-  group_by(cluster) %>%
-  summarise(
-    n_genes = n(),
-    n_sig_genes = sum(p_val_adj < 0.05),
-    n_sig_up = sum(p_val_adj < 0.05 & avg_log2FC > 0),
-    top_gene = first(gene),
-    top_log2FC = first(avg_log2FC)
-  )
-
-write.csv(summary_stats, paste0(mysample, "_celltype_DGE_summary.csv"))
-
-# --------------------------------------------------------------
-# UPSERT PLOT: Cluster-specific DE gene intersections
-# --------------------------------------------------------------
-cat("\n=== CREATING UPSET PLOT ===\n")
-
-# Prepare list of DE genes per cluster
-cluster_genes <- split(celltype_markers$gene, celltype_markers$cluster)
-
-# Create presence/absence matrix
-all_genes <- unique(celltype_markers$gene)
-gene_matrix <- sapply(cluster_genes, function(x) all_genes %in% x)
-rownames(gene_matrix) <- all_genes
-
-# Convert logical to 0/1
-gene_matrix <- as.data.frame(gene_matrix) %>% mutate_all(as.numeric)
-
-# Create UpSet plot
-png(paste0(mysample, "_celltype_DE_upset.png"), width = 1200, height = 800)
-upset(gene_matrix,
-      nsets = length(cluster_genes),
-      nintersects = 30,
-      order.by = "freq",
-      mb.ratio = c(0.6, 0.4),
-      text.scale = 1.5,
-      mainbar.y.label = "DE Gene Intersections",
-      sets.x.label = "Number of DE Genes per Cluster")
 dev.off()
 
 # --------------------------------------------------------------
 # SAVE FINAL OBJECT
 # --------------------------------------------------------------
 cat("\n=== SAVING RESULTS ===\n")
-
 myObject@misc$celltype_markers <- celltype_markers
 myObject@misc$top_markers <- top_markers
 myObject@misc$dge_summary <- summary_stats
-
 saveRDS(myObject, file = paste0(mysample, "_with_DGE.rds"))
 
 # --------------------------------------------------------------

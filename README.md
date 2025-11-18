@@ -128,15 +128,16 @@ celltype_markers <- FindAllMarkers(
 
 ##### Select Neurog2-S9A and top 10 markers ranked based on p_val_adj heatmap 
 
-![](figures/Neurog2-9SATopMarkers_heatmap.png?v=3)
+![](figures/Neurog2-9SATopMarkers_heatmap.png?v=4) 
+
 
 #### Top markers heatmap  
 
-![](figures/cNeurog2_celltype_markers_heatmap.png?v=5)
+![](figures/cNeurog2_celltype_markers_heatmap.png?v=6)
 
-![](figures/cNeurog2_celltype_top_markers_featureplot.png?v=5)
+![](figures/cNeurog2_celltype_top_markers_featureplot.png?v=6)
 
-![](figures/cNeurog2_celltype_markers_dotplot.png?v=5)
+![](figures/cNeurog2_celltype_markers_dotplot.png?v=6)
 
 
 ## Top Differential Peaks after annotation (nearby Genes)
