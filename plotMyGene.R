@@ -22,7 +22,7 @@ if(length(args) < 2){
 de_csv <- args[1]        # CSV file with DE results
 gene_query <- args[2]    # e.g., "Neurog2_S9A"
 
-output_png <- paste0(gene_query, "TopMarkers_heatmap", ".png")
+output_png <- paste0(gene_query, "_TopMarkers_heatmap.png")
 
 # ----------------------------
 # Load DE CSV
@@ -44,12 +44,12 @@ if(!gene_query %in% de$gene){
 # Include transgene
 heatmap_genes <- gene_query
 
-# ==== CHANGE #2: Select top N using smallest p_val_adj ====
+# Top 10 markers per cluster using smallest p_val_adj
 top_markers <- de %>%
   filter(gene != gene_query) %>%
   group_by(cluster) %>%
-  arrange(p_val_adj) %>%      # ← sorted by significance
-  slice_head(n = 10) %>%        # ← top 5 most significant
+  arrange(p_val_adj) %>%      
+  slice_head(n = 10) %>%        
   pull(gene)
 
 heatmap_genes <- unique(c(heatmap_genes, top_markers))
@@ -58,23 +58,23 @@ cat("Genes included in heatmap:\n")
 print(heatmap_genes)
 
 # ----------------------------
-# Prepare matrix: genes x clusters
+# Prepare matrix: genes x clusters (with fixed order)
 # ----------------------------
-
-# ==== CHANGE #1: enforce cluster order ====
 cluster_order <- c("MG", "MGPC", "BC", "AC", "Rod", "Cones")
 
 heatmap_df <- de %>%
   filter(gene %in% heatmap_genes) %>%
   select(gene, cluster, avg_log2FC) %>%
-  mutate(cluster = factor(cluster, levels = cluster_order)) %>%  # enforce order
+  mutate(cluster = factor(cluster, levels = cluster_order)) %>%
   pivot_wider(names_from = cluster, values_from = avg_log2FC, values_fill = 0)
 
 # Convert to matrix
 heatmap_matrix <- as.data.frame(heatmap_df)
 rownames(heatmap_matrix) <- heatmap_matrix$gene
 heatmap_matrix$gene <- NULL
-heatmap_matrix <- as.matrix(heatmap_matrix)
+
+# Enforce exact column order
+heatmap_matrix <- heatmap_matrix[, cluster_order, drop = FALSE]
 
 # ----------------------------
 # Plot heatmap and save PNG
@@ -84,7 +84,7 @@ png(output_png, width = 1500, height = 1200, res = 150)
 pheatmap(
   heatmap_matrix,
   cluster_rows = TRUE,
-  cluster_cols = FALSE,   # do not reorder columns—your custom order stays
+  cluster_cols = FALSE,   # do not reorder columns
   fontsize_row = 10,
   fontsize_col = 10,
   color = colorRampPalette(c("blue", "white", "red"))(100),
