@@ -129,7 +129,7 @@ celltype_markers <- FindAllMarkers(
 )
 ``` 
 
-![](figures/Neurog2-S9A_heatmap.png?v=1)
+#![](figures/Neurog2-S9A_heatmap.png?v=1)
 
 ![](figures/DE_heatmap_Neurog2-9SA.png?v=1)
 
