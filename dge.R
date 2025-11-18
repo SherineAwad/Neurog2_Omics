@@ -158,8 +158,6 @@ cat("- ", mysample, "_all_celltype_markers.csv\n")
 cat("- ", mysample, "_celltype_markers_heatmap.png\n")
 cat("- ", mysample, "_celltype_markers_dotplot.png\n")
 cat("- ", mysample, "_celltype_top_markers_featureplot.png\n")
-cat("- ", mysample, "_celltype_DGE_summary.csv\n")
-cat("- ", mysample, "_celltype_DE_upset.png\n")
 cat("- ", mysample, "_with_DGE.rds\n")
 cat("Total significant marker genes (p_adj < 0.05):", sum(celltype_markers$p_val_adj < 0.05), "\n")
 

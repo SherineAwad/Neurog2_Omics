@@ -139,6 +139,9 @@ celltype_markers <- FindAllMarkers(
 
 ![](figures/cNeurog2_celltype_markers_dotplot.png?v=6)
 
+# Download DGE 
+
+[Download CSV](https://docs.google.com/spreadsheets/d/1UjwHjkFK80CwosLBU8T7LFh20g9MEF8urONxpfuEfyU/edit?usp=sharing)
 
 ## Top Differential Peaks after annotation (nearby Genes)
 
