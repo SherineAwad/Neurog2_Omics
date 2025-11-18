@@ -1,7 +1,7 @@
 #!/usr/bin/env Rscript
 
 # ======================================
-# Full functional heatmap with Neurog2-9SA
+# Full functional heatmap with Neurog2-9SA and expanded gene lists
 # ======================================
 
 suppressPackageStartupMessages({
@@ -24,11 +24,31 @@ output_png <- "Neurog2-S9A_heatmap.png"
 # ----------------------------
 # Define gene sets using exact CSV names
 # ----------------------------
+Transgene <- c("Neurog2-9SA")
+
+MG_genes <- c(
+  "Rlbp1", "Glul", "Sox9", "Aqp4", "Slc1a3", "Vim"
+)
+
+MGPC_genes <- c(
+  "Ascl1", "Rgs13", "Dll1", "Nuak1", "Mapt", "Slc44a5"
+)
+
+Neuronal_genes <- c(
+  "Pou4f2", "Otx2", "Crx", "Vsx1", "Tubb3", "NeuN"
+)
+
+Progenitor_genes <- c(
+  "Hes1", "Hes5", "Pax6", "Sox2", "Nestin", "Ccnd1", "Mki67"
+)
+
+# Combine into dictionary
 gene_dict <- list(
-  Transgene = "Neurog2-9SA",
-  MG_markers = c("Rlbp1", "Glul", "Sox9"),
-  MGPC_progenitor = c("Ascl1", "Rgs13", "Dll1"),
-  Neuronal_markers = c("Pou4f2", "Otx2", "Crx", "Vsx1")
+  Transgene = Transgene,
+  MG_markers = MG_genes,
+  MGPC_progenitor = MGPC_genes,
+  Neuronal_markers = Neuronal_genes,
+  Progenitor_markers = Progenitor_genes
 )
 
 all_genes <- unique(unlist(gene_dict))
@@ -63,10 +83,11 @@ heatmap_matrix <- as.matrix(heatmap_matrix)
 # ----------------------------
 row_annotation <- data.frame(
   GeneType = sapply(rownames(heatmap_matrix), function(g){
-    if(g == gene_dict$Transgene) return("Transgene")
-    if(g %in% gene_dict$MG_markers) return("MG_marker")
-    if(g %in% gene_dict$MGPC_progenitor) return("MGPC_progenitor")
-    if(g %in% gene_dict$Neuronal_markers) return("Neuronal_marker")
+    if(g %in% gene_dict$Transgene) return("Neurog2-S9A")
+    if(g %in% gene_dict$MG_markers) return("MG")
+    if(g %in% gene_dict$MGPC_progenitor) return("MGPC")
+    if(g %in% gene_dict$Neuronal_markers) return("Neuronal")
+    if(g %in% gene_dict$Progenitor_markers) return("Progenitor")
     return("Other")
   })
 )
@@ -77,13 +98,16 @@ rownames(row_annotation) <- rownames(heatmap_matrix)
 # ----------------------------
 ann_colors <- list(
   GeneType = c(
-    Transgene = "red",
-    MG_marker = "blue",
-    MGPC_progenitor = "purple",
-    Neuronal_marker = "orange",
+    `Neurog2-S9A` = "red",
+    MG = "blue",
+    MGPC = "purple",
+    Neuronal = "orange",
+    Progenitor = "green", 
     Other = "grey"
   )
 )
+
+
 
 # ----------------------------
 # Plot heatmap
