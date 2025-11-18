@@ -1,7 +1,7 @@
 #!/usr/bin/env Rscript
 
 # ======================================
-# Full functional heatmap with Neurog2-9SA and expanded gene lists
+# Full functional heatmap with Neurog2-S9A and expanded gene lists
 # ======================================
 
 suppressPackageStartupMessages({
@@ -24,7 +24,7 @@ output_png <- "Neurog2-S9A_heatmap.png"
 # ----------------------------
 # Define gene sets using exact CSV names
 # ----------------------------
-Transgene <- c("Neurog2-9SA")
+Transgene <- c("Neurog2-S9A")
 
 MG_genes <- c(
   "Rlbp1", "Glul", "Sox9", "Aqp4", "Slc1a3", "Vim"
@@ -34,21 +34,21 @@ MGPC_genes <- c(
   "Ascl1", "Rgs13", "Dll1", "Nuak1", "Mapt", "Slc44a5"
 )
 
-Neuronal_genes <- c(
-  "Pou4f2", "Otx2", "Crx", "Vsx1", "Tubb3", "NeuN"
-)
-
 Progenitor_genes <- c(
   "Hes1", "Hes5", "Pax6", "Sox2", "Nestin", "Ccnd1", "Mki67"
+)
+
+Neuronal_genes <- c(
+  "Pou4f2", "Otx2", "Crx", "Vsx1", "Tubb3", "NeuN"
 )
 
 # Combine into dictionary
 gene_dict <- list(
   Transgene = Transgene,
   MG_markers = MG_genes,
-  MGPC_progenitor = MGPC_genes,
-  Neuronal_markers = Neuronal_genes,
-  Progenitor_markers = Progenitor_genes
+  MGPC_markers = MGPC_genes,
+  Progenitor_markers = Progenitor_genes,
+  Neuronal_markers = Neuronal_genes
 )
 
 all_genes <- unique(unlist(gene_dict))
@@ -85,29 +85,32 @@ row_annotation <- data.frame(
   GeneType = sapply(rownames(heatmap_matrix), function(g){
     if(g %in% gene_dict$Transgene) return("Neurog2-S9A")
     if(g %in% gene_dict$MG_markers) return("MG")
-    if(g %in% gene_dict$MGPC_progenitor) return("MGPC")
-    if(g %in% gene_dict$Neuronal_markers) return("Neuronal")
+    if(g %in% gene_dict$MGPC_markers) return("MGPC")
     if(g %in% gene_dict$Progenitor_markers) return("Progenitor")
+    if(g %in% gene_dict$Neuronal_markers) return("Neuronal")
     return("Other")
   })
 )
 rownames(row_annotation) <- rownames(heatmap_matrix)
 
 # ----------------------------
+# Ensure gene types are grouped in heatmap
+# ----------------------------
+# Order of rows: Transgene, MG, MGPC, Progenitor, Neuronal
+gene_type_levels <- c("Neurog2-S9A", "MG", "MGPC", "Progenitor", "Neuronal", "Other")
+row_annotation$GeneType <- factor(row_annotation$GeneType, levels = gene_type_levels)
+heatmap_matrix <- heatmap_matrix[order(row_annotation$GeneType), ]
+row_annotation <- row_annotation[order(row_annotation$GeneType), , drop = FALSE]
+
+# ----------------------------
 # Annotation colors
 # ----------------------------
 ann_colors <- list(
-  GeneType = c(
-    `Neurog2-S9A` = "red",
-    MG = "blue",
-    MGPC = "purple",
-    Neuronal = "orange",
-    Progenitor = "green", 
-    Other = "grey"
+  GeneType = setNames(
+    c("red", "blue", "purple", "green", "orange", "grey"),
+    gene_type_levels
   )
 )
-
-
 
 # ----------------------------
 # Plot heatmap
@@ -116,14 +119,14 @@ cat("Plotting heatmap to:", output_png, "\n")
 png(output_png, width = 1800, height = 1200, res = 150)
 pheatmap(
   heatmap_matrix,
-  cluster_rows = TRUE,
+  cluster_rows = FALSE,   # keep our grouped order
   cluster_cols = TRUE,
   fontsize_row = 10,
   fontsize_col = 12,
   color = colorRampPalette(c("blue", "white", "red"))(100),
   annotation_row = row_annotation,
   annotation_colors = ann_colors,
-  main = "Functional markers and Neurog2-9SA",
+  main = "Functional markers and Neurog2-S9A",
   border_color = "grey60"
 )
 dev.off()
