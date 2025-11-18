@@ -141,7 +141,7 @@ celltype_markers <- FindAllMarkers(
 
 # Download DGE 
 
-[Download CSV](https://docs.google.com/spreadsheets/d/1UjwHjkFK80CwosLBU8T7LFh20g9MEF8urONxpfuEfyU/edit?usp=sharing)
+[Download DGE csv](https://docs.google.com/spreadsheets/d/1UjwHjkFK80CwosLBU8T7LFh20g9MEF8urONxpfuEfyU/edit?usp=sharing)
 
 ## Top Differential Peaks after annotation (nearby Genes)
 
