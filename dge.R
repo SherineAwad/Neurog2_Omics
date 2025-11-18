@@ -76,12 +76,16 @@ available_genes <- rownames(myObject@assays$SCT@scale.data)
 top10_markers_filtered <- top10_markers %>% filter(gene %in% available_genes)
 
 if (nrow(top10_markers_filtered) > 0) {
+  # --- FIX: Set the order of cells for the heatmap ---
+  Idents(myObject) <- factor(Idents(myObject), levels = c('MG', 'MGPC', 'BC', 'AC', 'Rod', 'Cones'))
+
   heatmap_plot <- DoHeatmap(
     myObject,
     features = top10_markers_filtered$gene,
     assay = "SCT",
     label = TRUE,
-    size = 4   # increased font size
+    size = 4,   # increased font size
+    cells = WhichCells(myObject, idents = levels(Idents(myObject)))
   ) +
     scale_fill_gradient2(low = "blue", mid = "white", high = "red", midpoint = 0) +  # blue-white-red
     theme(axis.text.y = element_text(size = 10))  # larger y-axis labels
@@ -213,5 +217,4 @@ cat("- ", mysample, "_celltype_DGE_summary.csv\n")
 cat("- ", mysample, "_celltype_DE_upset.png\n")
 cat("- ", mysample, "_with_DGE.rds\n")
 cat("Total significant marker genes (p_adj < 0.05):", sum(celltype_markers$p_val_adj < 0.05), "\n")
-cat("Average markers per cell type:", round(mean(summary_stats$n_genes), 1), "\n")
 

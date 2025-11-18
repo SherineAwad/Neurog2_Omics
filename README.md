@@ -105,6 +105,14 @@ Overexpression of stablized version of Neurog2
 
 ## Differential Gene Expression
 
+#### Starting with: 
+
+| Metric          | Count   |
+|-----------------|---------|
+| Number of cells | 17,278  |
+| Number of genes | 32,287  |
+
+
 ![](figures/cNeurog2_celltype_markers_heatmap.png?v=4)
 
 ![](figures/cNeurog2_celltype_top_markers_featureplot.png?v=4)
@@ -127,16 +135,12 @@ Overexpression of stablized version of Neurog2
 #### MG
 ![](figures/cNeurog2_MG_markers_violin.png?v=4)
 
+# Motif Enrichment 
+
+![](figures/motif_enrichment.png?v=1)
+
 
 ## Top Differential Peaks after annotation (nearby Genes)
-
-#### Starting with: 
-
-| Metric          | Count   |
-|-----------------|---------|
-| Number of cells | 17,360  |
-| Number of genes | 213,119 |
-
 
 ![](figures/TopPeaks.png?v=2)
 
