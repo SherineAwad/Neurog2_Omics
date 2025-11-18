@@ -125,6 +125,10 @@ celltype_markers <- FindAllMarkers(
 )
 ``` 
 
+# 📝📝📝📝 Download DGE 
+
+[Download DGE csv](https://docs.google.com/spreadsheets/d/1UjwHjkFK80CwosLBU8T7LFh20g9MEF8urONxpfuEfyU/edit?usp=sharing)
+
 
 ##### Select Neurog2-S9A and top 10 markers ranked based on p_val_adj heatmap 
 
@@ -138,10 +142,6 @@ celltype_markers <- FindAllMarkers(
 ![](figures/cNeurog2_celltype_top_markers_featureplot.png?v=6)
 
 ![](figures/cNeurog2_celltype_markers_dotplot.png?v=6)
-
-# Download DGE 
-
-[Download DGE csv](https://docs.google.com/spreadsheets/d/1UjwHjkFK80CwosLBU8T7LFh20g9MEF8urONxpfuEfyU/edit?usp=sharing)
 
 ## Top Differential Peaks after annotation (nearby Genes)
 
