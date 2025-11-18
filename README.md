@@ -132,8 +132,7 @@ celltype_markers <- FindAllMarkers(
 
 ##### Select Neurog2-S9A and top 10 markers ranked based on p_val_adj heatmap 
 
-![](figures/Top10_Markers_heatmap.png?v=1) 
-
+![](figures/Top10_Markers_heatmap.png?v=2)
 
 #### Top markers heatmap  
 

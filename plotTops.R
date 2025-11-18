@@ -86,7 +86,7 @@ cat("Saving heatmap to:", output_png, "\n")
 png(output_png, width = 1500, height = 1200, res = 150)
 pheatmap(
   heatmap_matrix,
-  cluster_rows = TRUE,
+  cluster_rows = FALSE,
   cluster_cols = FALSE,  # keep fixed column order
   fontsize_row = 10,
   fontsize_col = 10,
