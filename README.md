@@ -116,13 +116,31 @@ Normally, adult mouse retinas cannot generate new neurons, so vision loss is per
 # ⚠️  ⚠️  ⚠️  ⚠️  TOO STRINGENT PARAMETERS NEUROG2_S9A DOESN'T SHOW UP
 # ⚠️  ⚠️  ⚠️  ⚠️  WORKING ON THIS 
 
-![](figures/cNeurog2_celltype_markers_heatmap.png?v=4)
 
-![](figures/cNeurog2_celltype_top_markers_featureplot.png?v=4)
+```r
+celltype_markers <- FindAllMarkers(
+  myObject,
+  assay = "SCT",
+  only.pos = TRUE,
+  min.pct = 0.1,
+  logfc.threshold = 0.05,
+  test.use = "wilcox",
+  verbose = TRUE
+)
+``` 
 
-![](figures/cNeurog2_celltype_markers_dotplot.png?v=4)
+![](figures/DE_heatmap_Neurog2-9SA.png?v=1)
 
-![](figures/cNeurog2_celltype_DE_upset.png?v=1)
+![](figures/cNeurog2_celltype_markers_heatmap.png?v=5)
+
+![](figures/cNeurog2_celltype_top_markers_featureplot.png?v=5)
+
+![](figures/cNeurog2_celltype_markers_dotplot.png?v=5)
+
+
+## Not updated for now  
+![](figures/cNeurog2_celltype_DE_upset.png?v=2)
+
 
 
 ##### Rod 
