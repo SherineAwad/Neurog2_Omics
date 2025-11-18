@@ -66,16 +66,17 @@ if ("umap.wnn.harmony" %in% names(myObject@reductions)) {
   }
 }
 
-# Generate UMAP plot with new annotations
-umap_plot <- DimPlot(myObject,
-                     reduction = reduction_to_use,
-                     label = TRUE,
-                     label.size = 3, pt.size = 1.5,
-                     repel = TRUE) +
+# Generate UMAP plot colored by cluster with legend only
+umap_plot <- DimPlot(
+  myObject,
+  reduction = reduction_to_use,
+  label = FALSE,          # remove labels on top of points
+  pt.size = 0.9
+) +
   ggtitle(paste(mysample, "- Annotated Cell Types")) +
   theme(plot.title = element_text(hjust = 0.5))
 
-# Save UMAP plot to current directory
+# Save UMAP plot
 umap_file <- paste0(mysample, "_annotated_umap.png")
 png(umap_file, width = 10, height = 8, units = "in", res = 300)
 print(umap_plot)
@@ -171,4 +172,3 @@ cat("- Summary table:", table_file, "\n")
 sink()
 
 cat("Annotation report saved to:", report_file, "\n")
-

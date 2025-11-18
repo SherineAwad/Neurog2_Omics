@@ -96,7 +96,7 @@ Normally, adult mouse retinas cannot generate new neurons, so vision loss is per
 ## Annotation: 
 
 
-![Annotations](figures/cNeurog2_annotated_umap.png?v=6)
+![Annotations](figures/cNeurog2_annotated_umap.png?v=7)
 
 ## Cell ratio  
 
