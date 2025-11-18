@@ -1,7 +1,6 @@
 # Neurog2 Multiomics Using Seurat and Signac
 
-Overexpression of stablized version of Neurog2 
-
+Normally, adult mouse retinas cannot generate new neurons, so vision loss is permanent. We are testing whether overexpressing Neurog2 in Müller glia can reprogram them into functional retinal neurons. These newly formed neurons behave like normal retinal cells.
 
 ## Before filtering 
 
@@ -112,6 +111,10 @@ Overexpression of stablized version of Neurog2
 | Number of cells | 17,278  |
 | Number of genes | 32,287  |
 
+
+
+# ⚠️  ⚠️  ⚠️  ⚠️  TOO STRINGENT PARAMETERS NEUROG2_S9A DOESN'T SHOW UP
+# ⚠️  ⚠️  ⚠️  ⚠️  WORKING ON THIS 
 
 ![](figures/cNeurog2_celltype_markers_heatmap.png?v=4)
 
