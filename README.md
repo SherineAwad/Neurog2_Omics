@@ -144,7 +144,7 @@ celltype_markers <- FindAllMarkers(
 
 ## Top Differential Peaks after annotation (nearby Genes)
 
-![](figures/toppeaks.png?v=4)
+![](figures/toppeaks.png?v=5)
 
 
 # ⚠️  ⚠️  ⚠️  ⚠️  ONGOING Motif Enrichment 
