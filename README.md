@@ -154,3 +154,9 @@ celltype_markers <- FindAllMarkers(
 # ⚠️  ⚠️  ⚠️  ⚠️  ONGOING Motif Enrichment 
 
 
+
+# ⚠️  ⚠️  ⚠️  ⚠️  ONGOING Susbet of MG/MGPC 
+
+![](gures/cNeurog2_TH1_vs_TH2_heatmap_top20.png)
+
+
