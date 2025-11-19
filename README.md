@@ -156,7 +156,7 @@ dge_results <- FindMarkers(
 
 ![Top markers heatmap](figures/cNeurog2_TH2_vs_TH1_heatmap_top30.png?v=2)
 
-## Download DGE for MG/MGPC subset 
+## Download DGE for MG/MGPC subset (Z-score) 
 
 [MG/MGPC DGE](https://docs.google.com/spreadsheets/d/17JkCb6IviAh6rUSZlV8lAQTN0331oyK8BmUCkgzcvnA/edit?usp=sharing)
 
