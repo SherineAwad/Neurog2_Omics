@@ -156,8 +156,23 @@ celltype_markers <- FindAllMarkers(
 
 ## Differential gene expression in the MG/MGPC subset 
 
+```r
+dge_results <- FindMarkers(
+  subset_cells,
+  ident.1 = "TH2",
+  ident.2 = "TH1",
+  assay = "SCT",
+  logfc.threshold = 0.25,
+  test.use = "wilcox",
+  min.pct = 0.1,
+  )
+
+``` 
 
 ![](figures/cNeurog2_TH2_vs_TH1_heatmap_top30.png)
+
+
+## Download DGE for MG/MGPC subset 
 
 [MG/MGPC DGE](https://docs.google.com/spreadsheets/d/17JkCb6IviAh6rUSZlV8lAQTN0331oyK8BmUCkgzcvnA/edit?usp=sharing)
 
