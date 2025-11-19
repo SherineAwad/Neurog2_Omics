@@ -153,5 +153,4 @@ celltype_markers <- FindAllMarkers(
 
 # ⚠️  ⚠️  ⚠️  ⚠️  ONGOING Motif Enrichment 
 
-![](figures/motif_enrichment.png?v=1)
 
