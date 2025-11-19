@@ -24,7 +24,7 @@ subset_rds_file <- paste0(mysample, "_MG_MGPC_subset.rds")
 saveRDS(subset_cells, file = subset_rds_file)
 cat("Subsetted Seurat object saved to:", subset_rds_file, "\n")
 
-# Set Sample as identity for TH1 vs TH2 comparison
+# Set Sample as identity for TH2 vs TH1 comparison
 Idents(subset_cells) <- "Sample"
 
 # Prepare SCT if exists, else SCTransform
@@ -37,46 +37,18 @@ if ("SCT" %in% names(subset_cells@assays)) {
   subset_cells <- PrepSCTFindMarkers(subset_cells)
 }
 
-# Differential expression: TH1 vs TH2
-cat("=== RUNNING DIFFERENTIAL EXPRESSION: TH1 vs TH2 ===\n")
+cat("=== RUNNING DIFFERENTIAL EXPRESSION: TH2 vs TH1 ===\n")
 dge_results <- FindMarkers(
   subset_cells,
-  ident.1 = "TH1",
-  ident.2 = "TH2",
+  ident.1 = "TH2",
+  ident.2 = "TH1",
   assay = "SCT",
   logfc.threshold = 0.25,
-  test.use = "wilcox"
-)
+  test.use = "wilcox",
+  min.pct = 0.1,
+  )
 
-output_csv <- paste0(mysample, "_TH1_vs_TH2_DGE.csv")
+output_csv <- paste0(mysample, "_MG_MGPC_TH2_vs_TH1_DGE.csv")
 write.csv(dge_results, file = output_csv)
 cat("DGE results saved to:", output_csv, "\n")
-
-# Top 20 DE genes for heatmap
-top_genes <- rownames(dge_results[order(dge_results$p_val_adj),])[1:20]
-
-# Extract expression matrix for heatmap
-expr_matrix <- as.matrix(GetAssayData(subset_cells, slot = "data")[top_genes, ])
-scaled_matrix <- t(scale(t(expr_matrix)))
-
-# Column annotation
-annotation_col <- data.frame(
-  Sample = subset_cells$Sample,
-  row.names = colnames(subset_cells)
-)
-
-# Plot heatmap
-heatmap_file <- paste0(mysample, "_TH1_vs_TH2_heatmap.png")
-png(heatmap_file, width = 1500, height = 1200, res = 150)
-pheatmap(
-  scaled_matrix,
-  annotation_col = annotation_col,
-  cluster_rows = TRUE,
-  cluster_cols = TRUE,
-  show_colnames = FALSE,
-  fontsize_row = 10,
-  main = paste0(mysample, ": Top 20 DE Genes TH1 vs TH2")
-)
-dev.off()
-cat("Heatmap saved to:", heatmap_file, "\n")
 

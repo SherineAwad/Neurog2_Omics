@@ -151,11 +151,22 @@ celltype_markers <- FindAllMarkers(
 ![](figures/toppeaks.png?v=5)
 
 
+
+#  Subset MG/MGPC 
+
+## Differential gene expression in the MG/MGPC subset 
+
+
+![](figures/cNeurog2_TH2_vs_TH1_heatmap_top30.png)
+
+[MG/MGPC DGE](https://docs.google.com/spreadsheets/d/17JkCb6IviAh6rUSZlV8lAQTN0331oyK8BmUCkgzcvnA/edit?usp=sharing)
+
+
+
 # ⚠️  ⚠️  ⚠️  ⚠️  ONGOING Motif Enrichment 
 
 
 
-# ⚠️  ⚠️  ⚠️  ⚠️  ONGOING Susbet of MG/MGPC 
 
 
 ![](figures/cNeurog2_TH1_vs_TH2_heatmap_top30.png)
