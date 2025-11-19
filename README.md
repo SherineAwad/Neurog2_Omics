@@ -137,11 +137,6 @@ celltype_markers <- FindAllMarkers(
 ![](figures/Top10_Markers_heatmap.png?v=3)
 
 
-## Top Differential Peaks after annotation (nearby Genes)
-
-# 📝📝📝📝 Download annotated Diff Peaks 
-
-
 #  Subset MG/MGPC 
 
 ## Differential gene expression in the MG/MGPC subset 
@@ -160,14 +155,11 @@ dge_results <- FindMarkers(
 ``` 
 
 
-
-
 ## Download DGE for MG/MGPC subset 
 
 [MG/MGPC DGE](https://docs.google.com/spreadsheets/d/17JkCb6IviAh6rUSZlV8lAQTN0331oyK8BmUCkgzcvnA/edit?usp=sharing)
 
 
 
-# ⚠️  ⚠️  ⚠️  ⚠️  ONGOING Motif Enrichment 
 
 
