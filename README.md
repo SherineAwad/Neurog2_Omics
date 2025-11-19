@@ -166,7 +166,3 @@ celltype_markers <- FindAllMarkers(
 # ⚠️  ⚠️  ⚠️  ⚠️  ONGOING Motif Enrichment 
 
 
-
-
-
-![](figures/cNeurog2_TH1_vs_TH2_heatmap_top30.png)
