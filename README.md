@@ -213,7 +213,7 @@ Testing motif enrichment in 2279 regions
  
 
 
+# Pathways of genes near upregulated peaks in TH2 
 
-
-
+![GO](figures/TH2_pathways_dotplot.png)
 
