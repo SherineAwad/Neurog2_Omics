@@ -31,8 +31,13 @@ diff <- read.csv(args$diff, row.names=1, stringsAsFactors=FALSE)
 annot <- read.csv(args$annot, stringsAsFactors=FALSE)
 
 # Ensure peak columns
-if(!"query_region" %in% colnames(annot)) stop("Annotated CSV must have 'query_region' column")
-annot$peak <- annot$query_region
+#if(!"query_region" %in% colnames(annot)) stop("Annotated CSV must have 'query_region' column")
+#annot$peak <- annot$query_region
+
+if(!"X" %in% colnames(annot)) stop("Annotated CSV must have 'X' column")
+annot$peak <- annot$X
+
+
 
 # -------------------------
 # Intersect peaks
