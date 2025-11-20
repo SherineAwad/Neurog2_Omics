@@ -187,6 +187,32 @@ However, its ranked 1+k in order !!
 
  
 
+## Motif enrichment on MG/MGPC subset 
+
+```
+**Running motif enrichment on UPREGULATED peaks...**  
+**Valid UPREGULATED peaks with GC content:** 0  
+❌ **Error:** No valid UPREGULATED peaks with GC content data
+
+
+The GC content error show up even with Upregulated diff peaks, to fix this we do, skip GC check: 
+
+Running motif enrichment on UPREGULATED peaks...
+Warning: No GC content data available. Running motif enrichment without GC correction.
+Selecting background regions to match input sequence characteristics
+Matching GC.percent distribution
+Testing motif enrichment in 2279 regions
+```
+
+
+![UP MG/MGPC Motifs](figures/MG_MGPC_UpMotifEnrich.png?=v1)
+
+# 📝📝📝📝 Download MG/MGPC Upregulated Motifs 
+
+[UP MG/MGPC Motifs](https://docs.google.com/spreadsheets/d/1Oxw1cfRA5kpBqGrrQw34i3wvBQvyKzwDmzUj1YuCY3U/edit?usp=sharing)
+ 
+
+
 
 
 
