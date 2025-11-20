@@ -179,7 +179,7 @@ Neurog2 one close peak which has the following significance
 
 However, its ranked 1+k in order !!
 
-![](figures/cNeurog2_MG_MGPC_heatmap.png)
+
 
  
 
