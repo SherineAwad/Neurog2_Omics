@@ -63,7 +63,7 @@ mat_z[mat_z > 3] <- 3
 mat_z[mat_z < -3] <- -3
 
 # Plot heatmap without clustering
-heatmap_png <- paste0(mysample, "_MG_MGPC_heatmap.png")
+heatmap_png <- paste0(mysample, "_MG_MGPC_diffPeaksheatmap.png")
 png(heatmap_png, width = 1600, height = 1400, res = 150)
 pheatmap(
   mat_z,
