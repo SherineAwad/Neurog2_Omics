@@ -8,45 +8,41 @@ library(Matrix)
 library(dplyr)
 set.seed(1234)
 
-
-library(future)
-
 plan(sequential)   # stays the same (or 'multicore' if you want parallel)
-
-# 80 GB limit
 options(future.globals.maxSize = 80 * 1024^3)
 
-
 args <- commandArgs(trailingOnly = TRUE)
-mysample <- args[1] 
-myRDS <- paste(mysample, "_with_DGE.rds", sep="")
-myRDS
-
+mysample <- args[1]
+myRDS <- paste0(mysample, "_with_DGE.rds")
 myObject <- readRDS(myRDS)
 
-
-# Finder all markers
+# Set ATAC as default assay
 DefaultAssay(myObject) <- "ATAC"
-myObject.atac.markers <- FindAllMarkers(myObject, assay = "ATAC", test.use = "wilcox", only.pos = TRUE, min.pct = 0.1, logfc.threshold = 0.1) #was 0.25
 
-head(myObject.atac.markers)
+# Find differential peaks
+myObject.atac.markers <- FindAllMarkers(
+  myObject, 
+  assay = "ATAC", 
+  test.use = "wilcox", 
+  only.pos = TRUE, 
+  min.pct = 0.1, 
+  logfc.threshold = 0.1
+)
 
-myObject.atac.markers %>%
-  group_by(cluster) %>%
-  top_n(n = 2, wt = avg_log2FC)
-
-file_name <- paste(mysample, "DiffPeaks.csv", sep="")
+# Save diff peaks table
+file_name <- paste0(mysample, "_DiffPeaks.csv")
 write.csv(myObject.atac.markers, file=file_name)
 
-
+# Annotate peaks with nearest genes
 Nearby_genes <- ClosestFeature(myObject, myObject.atac.markers$gene)
-file_name <- paste(mysample, "annotatedDiffPeaks.csv", sep="")
-
-
+file_name <- paste0(mysample, "_annotatedDiffPeaks.csv")
 write.csv(Nearby_genes, file=file_name)
 
-myRDS <- paste(mysample, "_diffPeaks.rds", sep="")
-saveRDS(myObject, file = myRDS)
+# Store diff_peaks in the Seurat object for downstream scripts
+myObject@misc$diff_peaks <- myObject.atac.markers
 
-
+# Save the updated Seurat object
+myRDS_out <- paste0(mysample, "_DiffPeaks.rds")
+saveRDS(myObject, file = myRDS_out)
+message("Saved Seurat object with diff_peaks: ", myRDS_out)
 
