@@ -16,22 +16,20 @@ obj <- readRDS(rds_file)
 diff_peaks <- obj@misc$sdiff_peaks
 annot <- obj@misc$sannotated_diff_peaks
 
-# Use the 'query_region' column to match ATAC matrix peaks
+# Keep only valid genomic regions
 annot <- annot[grepl("^chr[0-9XYM]+-[0-9]+-[0-9]+$", annot$query_region), ]
 peak_coords <- annot$query_region
 
 # ATAC matrix
 DefaultAssay(obj) <- "ATAC"
 mat_all <- GetAssayData(obj, assay = "ATAC", layer = "data")
-
-# Clean rownames: remove whitespace
 rownames(mat_all) <- gsub("\\s+", "", rownames(mat_all))
 
-# Find matched peaks
+# Match annotation to matrix
 matched_peaks <- intersect(peak_coords, rownames(mat_all))
 if(length(matched_peaks) == 0) stop("No peaks match between annotation and ATAC matrix! Check formats.")
 
-# Select top N peaks by p_val_adj if available
+# Top N peaks
 top_n <- 30
 if(!is.null(diff_peaks) && "p_val_adj" %in% colnames(diff_peaks)) {
   split_peaks <- do.call(rbind, strsplit(rownames(diff_peaks), "[-:]"))
@@ -50,17 +48,33 @@ gene_labels <- annot$gene_name
 names(gene_labels) <- annot$query_region
 rownames(mat) <- gene_labels[top_peaks]
 
-# Plot heatmap
+# Convert to dense numeric
+mat_dense <- as.matrix(mat)
+
+# Compute row-wise z-score properly with numeric precision
+mat_z <- t(apply(mat_dense, 1, function(x) {
+  x <- as.numeric(x)
+  if(sd(x) == 0) rep(0, length(x)) else (x - mean(x)) / sd(x)
+}))
+rownames(mat_z) <- rownames(mat)
+
+# OPTIONAL: scale to visually noticeable range (-3 to 3)
+mat_z[mat_z > 3] <- 3
+mat_z[mat_z < -3] <- -3
+
+# Plot heatmap without clustering
 heatmap_png <- paste0(mysample, "_MG_MGPC_heatmap.png")
 png(heatmap_png, width = 1600, height = 1400, res = 150)
 pheatmap(
-  mat,
+  mat_z,
   cluster_rows = FALSE,
   cluster_cols = FALSE,
   show_rownames = TRUE,
   show_colnames = FALSE,
   fontsize_row = 10,
-  fontsize_col = 8
+  fontsize_col = 8,
+  scale = "none",
+  color = colorRampPalette(c("blue","white","red"))(100)
 )
 dev.off()
 message("Saved heatmap: ", heatmap_png)

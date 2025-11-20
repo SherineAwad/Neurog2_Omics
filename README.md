@@ -134,7 +134,7 @@ celltype_markers <- FindAllMarkers(
 
 ##### Select Neurog2-S9A and top 10 markers ranked based on p_val_adj heatmap 
 
-![](figures/Top10_Markers_heatmap.png?v=3)
+![](figures/Top10_Markers_heatmap.png?v=4)
 
 
 #  Subset MG/MGPC 
@@ -159,6 +159,29 @@ dge_results <- FindMarkers(
 ## Download DGE for MG/MGPC subset (Z-score) and sorted by avg FC  
 
 [MG/MGPC DGE](https://docs.google.com/spreadsheets/d/17JkCb6IviAh6rUSZlV8lAQTN0331oyK8BmUCkgzcvnA/edit?usp=sharing)
+
+
+
+## Differential Peaks in subset MG/MGPC 
+
+
+## Download annotated MG/MGPC subset differential peaks
+
+[MG/MGPC differential peaks](https://docs.google.com/spreadsheets/d/17LYiDVUW5CcdYlOw8LkqRCJfDMJGFKz0Wao67wdDOqE/edit?usp=sharing)
+
+
+Neurog2 one close peak which has the following significance 
+ 
+| Peak                     | p_val        | avg_log2FC | pct.1 | pct.2 | p_val_adj   |
+| ------------------------ | ------------ | ---------- | ----- | ----- | ----------- |
+| chr3-127633860-127634766 | 8.70 × 10⁻¹⁵ | -0.4201    | 0.135 | 0.193 | 1.85 × 10⁻⁹ |
+
+
+However, its ranked 1+k in order !!
+
+![](figures/cNeurog2_MG_MGPC_heatmap.png)
+
+ 
 
 
 
