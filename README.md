@@ -96,11 +96,11 @@ Normally, adult mouse retinas cannot generate new neurons, so vision loss is per
 ## Annotation: 
 
 
-![Annotations](figures/cNeurog2_annotated_umap.png?v=8)
+![Annotations](figures/cNeurog2_annotated_umap.png?v=9)
 
 ## Cell ratio  
 
-![Cell ratio](figures/cNeurog2_celltype_ratio_by_sample.png?v=8)
+![Cell ratio](figures/cNeurog2_celltype_ratio_by_sample.png?v=9)
 
 ## Differential Gene Expression
 
@@ -135,6 +135,12 @@ celltype_markers <- FindAllMarkers(
 ##### Select Neurog2-S9A and top 10 markers ranked based on p_val_adj heatmap 
 
 ![](figures/Top10_Markers_heatmap.png?v=4)
+
+
+
+# Differential Peaks
+
+![](figures/cNeurog2_DiffpeaksHeatmap.png)
 
 
 #  Subset MG/MGPC 

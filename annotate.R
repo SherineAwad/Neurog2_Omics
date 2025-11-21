@@ -95,20 +95,34 @@ cell_type_ratios <- myObject@meta.data %>%
   mutate(Percentage = Count / sum(Count) * 100) %>%
   ungroup()
 
+
+color_vector <- c(
+"Cones" = "#FF7F0F",   # Orange
+"AC" = "#1F77B4",     # Blue
+"Rod" = "#D62728",      # Deep Red
+"MG" = "#A6CEE3",      # Lilac / Purple
+"MGPC" = "#A0B0C0",    # Deep Orchid
+"BC" = "#6B3C8E"       # Heather / Plum
+)
+
+
+
+
 # Create ratio plot first to extract the color scale
 ratio_plot <- ggplot(cell_type_ratios, aes(x = Sample, y = Percentage, fill = CellType)) +
   geom_bar(stat = "identity", position = "stack") +
-  labs(title = paste(mysample, "- Cell Type Ratio by Sample"),
+  scale_fill_manual(values = color_vector) + labs(title = paste(mysample, "- Cell Type Ratio by Sample"),
        x = "Sample",
        y = "Percentage of Cells") +
   theme_classic() +
   theme(plot.title = element_text(hjust = 0.5))
 
+
 # Extract the colors from the ratio plot
-ratio_plot_built <- ggplot_build(ratio_plot)
-color_mapping <- unique(ratio_plot_built$data[[1]][, c("fill", "group")])
-celltype_levels <- levels(cell_type_ratios$CellType)
-color_vector <- setNames(color_mapping$fill, celltype_levels[as.numeric(color_mapping$group)])
+#ratio_plot_built <- ggplot_build(ratio_plot)
+#color_mapping <- unique(ratio_plot_built$data[[1]][, c("fill", "group")])
+#celltype_levels <- levels(cell_type_ratios$CellType)
+#color_vector <- setNames(color_mapping$fill, celltype_levels[as.numeric(color_mapping$group)])
 
 # Generate UMAP plot using the same colors as ratio plot
 umap_plot <- DimPlot(
