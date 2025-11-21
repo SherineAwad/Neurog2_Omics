@@ -41,6 +41,9 @@ write.csv(Nearby_genes, file=file_name)
 # Store diff_peaks in the Seurat object for downstream scripts
 myObject@misc$diff_peaks <- myObject.atac.markers
 
+# Also store the annotations separately if needed
+myObject@misc$peak_annotations <- Nearby_genes
+
 # Save the updated Seurat object
 myRDS_out <- paste0(mysample, "_DiffPeaks.rds")
 saveRDS(myObject, file = myRDS_out)
