@@ -197,8 +197,7 @@ However, its ranked 1+k in order !!
 
 ## ⚠️  ⚠️   ⚠️   MG/MGPC Differential Peaks heatmap 
 
-![MG/MGPC diffPeaks](figures/cNeurog2_MG_MGPC_diffPeaksheatmap.png)
-
+![MG/MGPC diffPeaks](figures/cNeurog2_MG_MGPC_diffPeaksheatmap.png?v=2)
  
 
 ## Motif enrichment on MG/MGPC subset 

@@ -51,18 +51,30 @@ rownames(mat) <- gene_labels[top_peaks]
 # Convert to dense numeric
 mat_dense <- as.matrix(mat)
 
-# Compute row-wise z-score properly with numeric precision
+# Compute row-wise z-score
 mat_z <- t(apply(mat_dense, 1, function(x) {
   x <- as.numeric(x)
   if(sd(x) == 0) rep(0, length(x)) else (x - mean(x)) / sd(x)
 }))
+
 rownames(mat_z) <- rownames(mat)
 
-# OPTIONAL: scale to visually noticeable range (-3 to 3)
+# Clip z-score values
 mat_z[mat_z > 3] <- 3
 mat_z[mat_z < -3] <- -3
 
-# Plot heatmap without clustering
+# -------------------------
+custom_palette <- colorRampPalette(c(
+  "#B5D1E1",  # light blue
+  "#C0DAEA",  # very light blue
+  "#FFFFFF",  # white
+  "#FDFEFE",  # near-white
+  "#E5A07E",  # light salmon
+  "#C94832",  # medium red
+  "#B5332A"   # deep red
+))(100)
+
+# Plot heatmap
 heatmap_png <- paste0(mysample, "_MG_MGPC_diffPeaksheatmap.png")
 png(heatmap_png, width = 1600, height = 1400, res = 150)
 pheatmap(
@@ -74,9 +86,10 @@ pheatmap(
   fontsize_row = 10,
   fontsize_col = 8,
   scale = "none",
-  color = colorRampPalette(c("blue","white","red"))(100)
+  color = custom_palette
 )
 dev.off()
+
 message("Saved heatmap: ", heatmap_png)
 message("DONE.")
 
