@@ -66,25 +66,7 @@ if ("umap.wnn.harmony" %in% names(myObject@reductions)) {
   }
 }
 
-# Generate UMAP plot colored by cluster with legend only
-umap_plot <- DimPlot(
-  myObject,
-  reduction = reduction_to_use,
-  label = FALSE,          # remove labels on top of points
-  pt.size = 0.9
-) +
-  ggtitle(paste(mysample, "- Annotated Cell Types")) +
-  theme(plot.title = element_text(hjust = 0.5))
-
-# Save UMAP plot
-umap_file <- paste0(mysample, "_annotated_umap.png")
-png(umap_file, width = 10, height = 8, units = "in", res = 300)
-print(umap_plot)
-dev.off()
-cat("Saved UMAP plot to:", umap_file, "\n")
-
-# Generate cell type ratio plot by sample
-# Assuming the sample information is stored in metadata, adjust the column name as needed
+# Generate cell type ratio data first to extract colors
 sample_column <- NULL
 possible_sample_cols <- c("sample", "orig.ident", "Sample", "sample_id")
 
@@ -102,10 +84,10 @@ if (is.null(sample_column)) {
   cat("Using", sample_column, "as sample identifier\n")
 }
 
-# --- FIX: Set CellType as factor with desired order ---
+# Create cell type ratios data
 cell_type_ratios <- myObject@meta.data %>%
   mutate(CellType = factor(as.character(Idents(myObject)),
-	       levels = c('Cones', 'Rod', 'AC', 'BC', 'MGPC', 'MG')),	
+               levels = c('Cones', 'Rod', 'AC', 'BC', 'MGPC', 'MG')),
          Sample = .data[[sample_column]]) %>%
   group_by(Sample, CellType) %>%
   summarise(Count = n(), .groups = 'drop') %>%
@@ -113,7 +95,7 @@ cell_type_ratios <- myObject@meta.data %>%
   mutate(Percentage = Count / sum(Count) * 100) %>%
   ungroup()
 
-# Create the ratio plot
+# Create ratio plot first to extract the color scale
 ratio_plot <- ggplot(cell_type_ratios, aes(x = Sample, y = Percentage, fill = CellType)) +
   geom_bar(stat = "identity", position = "stack") +
   labs(title = paste(mysample, "- Cell Type Ratio by Sample"),
@@ -121,6 +103,30 @@ ratio_plot <- ggplot(cell_type_ratios, aes(x = Sample, y = Percentage, fill = Ce
        y = "Percentage of Cells") +
   theme_classic() +
   theme(plot.title = element_text(hjust = 0.5))
+
+# Extract the colors from the ratio plot
+ratio_plot_built <- ggplot_build(ratio_plot)
+color_mapping <- unique(ratio_plot_built$data[[1]][, c("fill", "group")])
+celltype_levels <- levels(cell_type_ratios$CellType)
+color_vector <- setNames(color_mapping$fill, celltype_levels[as.numeric(color_mapping$group)])
+
+# Generate UMAP plot using the same colors as ratio plot
+umap_plot <- DimPlot(
+  myObject,
+  reduction = reduction_to_use,
+  label = FALSE,          # remove labels on top of points
+  pt.size = 0.9,
+  cols = color_vector     # Use the same colors as ratio plot
+) +
+  ggtitle(paste(mysample, "- Annotated Cell Types")) +
+  theme(plot.title = element_text(hjust = 0.5))
+
+# Save UMAP plot
+umap_file <- paste0(mysample, "_annotated_umap.png")
+png(umap_file, width = 10, height = 8, units = "in", res = 300)
+print(umap_plot)
+dev.off()
+cat("Saved UMAP plot to:", umap_file, "\n")
 
 # Save ratio plot to current directory
 ratioplot_file <- paste0(mysample, "_celltype_ratio_by_sample.png")

@@ -96,11 +96,11 @@ Normally, adult mouse retinas cannot generate new neurons, so vision loss is per
 ## Annotation: 
 
 
-![Annotations](figures/cNeurog2_annotated_umap.png?v=7)
+![Annotations](figures/cNeurog2_annotated_umap.png?v=8)
 
 ## Cell ratio  
 
-![Cell ratio](figures/cNeurog2_celltype_ratio_by_sample.png?v=7)
+![Cell ratio](figures/cNeurog2_celltype_ratio_by_sample.png?v=8)
 
 ## Differential Gene Expression
 
