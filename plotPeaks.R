@@ -54,9 +54,19 @@ gene_scores$gene_name <- factor(
   levels = unique(gene_scores$gene_name[order(gene_scores$maxpos)])
 )
 
-# --------------------------
-# UPDATED COLOR PALETTE
-# --------------------------
+# ------------------------------
+# NEW: Z-SCORE PER GENE
+# ------------------------------
+gene_scores <- gene_scores %>%
+  group_by(gene_name) %>%
+  mutate(
+    zscore = if (sd(score) == 0) 0 else (score - mean(score)) / sd(score)
+  ) %>%
+  ungroup()
+
+# ------------------------------
+# CUSTOM COLOR PALETTE
+# ------------------------------
 custom_palette <- c(
   "#B5D1E1",  # light blue (low)
   "#C0DAEA",  # very light blue
@@ -67,14 +77,16 @@ custom_palette <- c(
   "#B5332A"   # deep red (high)
 )
 
-# Plot heatmap using new palette
+# ------------------------------
+# PLOT USING Z-SCORES
+# ------------------------------
 png(args$o, width=1600, height=2000, res=150)
-ggplot(gene_scores, aes(x=cluster, y=gene_name, fill=score)) +
+ggplot(gene_scores, aes(x=cluster, y=gene_name, fill=zscore)) +
   geom_tile() +
   scale_fill_gradientn(
     colors = custom_palette,
-    values = scales::rescale(c(-2, -1, -0.2, 0, 0.5, 1.2, 2)),  # keeps white near 0
-    name="Log2FC"
+    values = scales::rescale(c(-2, -1, -0.2, 0, 0.5, 1.2, 2)),
+    name="Z-score"
   ) +
   theme_minimal() +
   labs(y="Nearby Gene", x="Cell Type") +
