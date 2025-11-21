@@ -1,9 +1,7 @@
-suppressPackageStartupMessages({
-  library(dplyr)
-  library(tidyr)
-  library(ggplot2)
-  library(pheatmap)
-})
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(pheatmap)
 
 args <- commandArgs(trailingOnly = TRUE)
 if(length(args) < 2) stop("Usage: Rscript plot_DE_heatmap.R <DE_csv_file> <top_N_markers>")
@@ -59,6 +57,17 @@ gene_order_df <- heatmap_matrix_z %>%
 sorted_genes <- gene_order_df$gene
 heatmap_matrix_z <- heatmap_matrix_z[sorted_genes, , drop = FALSE]
 
+# --- NEW COLOR PALETTE (only change) ---
+custom_colors <- colorRampPalette(c(
+  "#B5D1E1",  # light blue
+  "#C0DAEA",  # very light blue
+  "#FFFFFF",  # white
+  "#FDFEFE",  # near-white
+  "#E5A07E",  # light salmon
+  "#C94832",  # medium red
+  "#B5332A"   # deep red
+))(200)
+
 png(output_png, width = 1500, height = 1200, res = 150)
 pheatmap(
   heatmap_matrix_z,
@@ -66,7 +75,7 @@ pheatmap(
   cluster_cols = FALSE,
   fontsize_row = 10,
   fontsize_col = 10,
-  color = colorRampPalette(c("blue", "white", "red"))(100),
+  color = custom_colors,
   main = paste("Top", top_n, "Markers per Cluster (Diagonal Sorted, Z-score)"),
   border_color = NA
 )
