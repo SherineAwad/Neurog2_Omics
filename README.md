@@ -137,8 +137,20 @@ celltype_markers <- FindAllMarkers(
 ![](figures/Top10_Markers_heatmap.png?v=4)
 
 
+# WILL FIX COLORS/SCALE 
 
 # Differential Peaks
+
+```
+myObject.atac.markers <- FindAllMarkers(
+  myObject,
+  assay = "ATAC",
+  test.use = "wilcox",
+  only.pos = TRUE,
+  min.pct = 0.1,
+  logfc.threshold = 0.1
+)
+``` 
 
 ![](figures/cNeurog2_DiffpeaksHeatmap.png)
 
