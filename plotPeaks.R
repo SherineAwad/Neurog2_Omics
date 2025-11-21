@@ -54,39 +54,32 @@ gene_scores$gene_name <- factor(
   levels = unique(gene_scores$gene_name[order(gene_scores$maxpos)])
 )
 
-# ------------------------------
-# NEW: Z-SCORE PER GENE
-# ------------------------------
-gene_scores <- gene_scores %>%
-  group_by(gene_name) %>%
-  mutate(
-    zscore = if (sd(score) == 0) 0 else (score - mean(score)) / sd(score)
-  ) %>%
-  ungroup()
-
-# ------------------------------
-# CUSTOM COLOR PALETTE
-# ------------------------------
+# --------------------------
+# UPDATED COLOR PALETTE
+# --------------------------
 custom_palette <- c(
   "#B5D1E1",  # light blue (low)
   "#C0DAEA",  # very light blue
-  "#FFFFFF",  # white
+  "#FFFFFF",  # white (zero)
   "#FDFEFE",  # near-white
   "#E5A07E",  # light salmon
   "#C94832",  # medium red
   "#B5332A"   # deep red (high)
 )
 
-# ------------------------------
-# PLOT USING Z-SCORES
-# ------------------------------
+# Define normalized positions for colors
+value_breaks <- scales::rescale(c(-2, -1, -0.1, 0, 0.3, 1, 2))
+
+# --------------------------
+# FINAL PLOT WITH NEW COLORS
+# --------------------------
 png(args$o, width=1600, height=2000, res=150)
-ggplot(gene_scores, aes(x=cluster, y=gene_name, fill=zscore)) +
+ggplot(gene_scores, aes(x=cluster, y=gene_name, fill=score)) +
   geom_tile() +
   scale_fill_gradientn(
     colors = custom_palette,
-    values = scales::rescale(c(-2, -1, -0.2, 0, 0.5, 1.2, 2)),
-    name="Z-score"
+    values = value_breaks,
+    name = "Log2FC"
   ) +
   theme_minimal() +
   labs(y="Nearby Gene", x="Cell Type") +
