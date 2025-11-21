@@ -44,7 +44,7 @@ Normally, adult mouse retinas cannot generate new neurons, so vision loss is per
 ## Remove cluster 11, 19, and 26 and reCluster 
 
 
-![reCluster by sample](figures/cNeurog2_Recluster_BySample.png?v=6)
+![reCluster by sample](figures/cNeurog2_Recluster_BySample.png?v=7)
 
 ![reCluster by Clusters](figures/cNeurog2_Recluster_Clusters.png?v=6)
 
