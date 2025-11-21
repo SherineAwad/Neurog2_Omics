@@ -58,19 +58,32 @@ annotation_col <- data.frame(
   row.names = colnames(subset_cells)
 )
 
+# ----------------------------------------------------
+# CUSTOM COLOR PALETTE (ONLY CHANGE MADE)
+# ----------------------------------------------------
+custom_palette <- colorRampPalette(c(
+  "#B5D1E1",  # light blue (low)
+  "#C0DAEA",  # very light blue
+  "#FFFFFF",  # white (zero)
+  "#FDFEFE",  # near-white
+  "#E5A07E",  # light salmon
+  "#C94832",  # medium red
+  "#B5332A"   # deep red (high)
+))(100)
+
 # Plot heatmap
 heatmap_file <- paste0(mysample, "_TH2_vs_TH1_heatmap_top", length(top_genes), ".png")
 png(heatmap_file, width = 1200, height = 1000, res = 150)
 pheatmap(
   scaled_matrix,
   annotation_col = annotation_col,
-  cluster_rows = FALSE,  
-  cluster_cols = FALSE,  
+  cluster_rows = FALSE,
+  cluster_cols = FALSE,
   show_colnames = FALSE,
   show_rownames = TRUE,
   fontsize_row = 10,
   main = paste0(mysample, ": Top ", length(top_genes), " DE Genes TH2 vs TH1"),
-  color = colorRampPalette(c("blue", "white", "red"))(100)
+  color = custom_palette
 )
 dev.off()
 cat("Heatmap saved to:", heatmap_file, "\n")
