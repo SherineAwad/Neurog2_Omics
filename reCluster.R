@@ -68,35 +68,32 @@ figure_name <- paste0(mysample, "_Recluster_Clusters.png")
 png(file=figure_name, width=1200, height=800)
 print(
   DimPlot(myObject, reduction = "umap.wnn.harmony",
-          group.by = "seurat_clusters", label=TRUE, repel=TRUE) +
+          group.by = "seurat_clusters", label=TRUE, repel=TRUE,pt.size = 0.9) +
     ggtitle("Reclustered (Removed 11,19, &26) - Updated Harmony UMAP")
 )
 dev.off()
 
 # 2. UMAP by sample
+
+my_colors <- c(
+  "TH1" = "#6A0DAD",   # royal plum (deep purple)
+  "TH2" = "#C9A0DC"    # heather (soft lavender)
+)
+
 figure_name <- paste0(mysample, "_Recluster_BySample.png")
-png(file=figure_name, width=1200, height=800)
-print(
-  DimPlot(myObject, reduction = "umap.wnn.harmony",
-          group.by = "orig.ident", repel=TRUE) +
-    ggtitle("Reclustered by Sample - Updated Harmony UMAP")
-)
-dev.off()
-
-# 3. Violin plot of UMI per cluster (detect poor-quality cells)
-# Ensure cluster identity reflects Harmony WNN clusters
-myObject$wnn_harmony_clusters <- Idents(myObject)  # store Harmony WNN clusters in a new column
-Idents(myObject) <- "wnn_harmony_clusters"
-
-# Violin plot of UMI per Harmony WNN cluster
-DefaultAssay(myObject) <- "RNA"
-figure_name <- paste0(mysample, "_UMI_Violin_HarmonyWNN.png")
 png(file = figure_name, width = 1200, height = 800)
-print(
-  VlnPlot(myObject, features = "nCount_RNA", group.by = "wnn_harmony_clusters") +
-    ggtitle("UMI Counts per Harmony WNN Cluster - Identify Poor-Quality Cells") +
-    theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+p <- DimPlot(
+  myObject,
+  reduction = "umap.wnn.harmony",
+  group.by = "orig.ident",
+  cols = my_colors,
+  repel = TRUE,
+  pt.size = 0.9
 )
+p <- p + ggtitle("Reclustered by Sample - Updated Harmony UMAP")
+print(p)
+
 dev.off()
 
 # --------------------------------------------------------------
