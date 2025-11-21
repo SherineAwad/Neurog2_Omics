@@ -54,15 +54,26 @@ gene_scores$gene_name <- factor(
   levels = unique(gene_scores$gene_name[order(gene_scores$maxpos)])
 )
 
-# Plot heatmap with blue shades, zero = light blue
+# --------------------------
+# UPDATED COLOR PALETTE
+# --------------------------
+custom_palette <- c(
+  "#B5D1E1",  # light blue (low)
+  "#C0DAEA",  # very light blue
+  "#FFFFFF",  # white
+  "#FDFEFE",  # near-white
+  "#E5A07E",  # light salmon
+  "#C94832",  # medium red
+  "#B5332A"   # deep red (high)
+)
+
+# Plot heatmap using new palette
 png(args$o, width=1600, height=2000, res=150)
 ggplot(gene_scores, aes(x=cluster, y=gene_name, fill=score)) +
   geom_tile() +
-  scale_fill_gradient2(
-    low = "#08306b",   # dark blue for negative
-    mid = "#deebf7",   # light blue for zero
-    high = "#08519c",  # deep blue for positive
-    midpoint = 0,
+  scale_fill_gradientn(
+    colors = custom_palette,
+    values = scales::rescale(c(-2, -1, -0.2, 0, 0.5, 1.2, 2)),  # keeps white near 0
     name="Log2FC"
   ) +
   theme_minimal() +

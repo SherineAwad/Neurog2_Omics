@@ -132,12 +132,8 @@ celltype_markers <- FindAllMarkers(
 
 [Download DGE csv](https://docs.google.com/spreadsheets/d/14xipS-nTOasxoGZ4Ljx0jYxBgCW2svklyGPC1oQ7KPQ/edit?usp=sharing)
 
-##### Select Neurog2-S9A and top 10 markers ranked based on p_val_adj heatmap 
+![](figures/Top10_Markers_heatmap.png?v=5)
 
-![](figures/Top10_Markers_heatmap.png?v=4)
-
-
-# WILL FIX COLORS/SCALE 
 
 # Differential Peaks
 
@@ -152,8 +148,7 @@ myObject.atac.markers <- FindAllMarkers(
 )
 ``` 
 
-![](figures/cNeurog2_DiffpeaksHeatmap.png)
-
+![](figures/cNeurog2_DiffpeaksHeatmap.png?v=1)
 
 #  Subset MG/MGPC 
 
