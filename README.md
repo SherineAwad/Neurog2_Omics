@@ -148,7 +148,7 @@ myObject.atac.markers <- FindAllMarkers(
 )
 ``` 
 
-![](figures/cNeurog2_DiffpeaksHeatmap.png?v=4)
+![](figures/cNeurog2_DiffpeaksHeatmap.png?v=5)
 
 
 #  Subset MG/MGPC 
