@@ -195,7 +195,7 @@ However, its ranked 1+k in order !!
 
 
 
-## ⚠️  ⚠️   ⚠️   MG/MGPC Differential Peaks heatmap 
+## MG/MGPC Differential Peaks heatmap 
 
 ![MG/MGPC diffPeaks](figures/cNeurog2_MG_MGPC_diffPeaksheatmap.png?v=3)
  
@@ -224,7 +224,7 @@ Testing motif enrichment in 2279 regions
 
 [UP MG/MGPC Motifs](https://docs.google.com/spreadsheets/d/1Oxw1cfRA5kpBqGrrQw34i3wvBQvyKzwDmzUj1YuCY3U/edit?usp=sharing)
  
-### 🚨 Warning:  Neurog2 is not still found 
+### 🚨 🚨 🚨 Warning:  Neurog2 is not still found 
 
 # Pathways of genes near upregulated peaks in TH2 
 
