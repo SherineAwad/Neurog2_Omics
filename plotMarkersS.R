@@ -62,7 +62,7 @@ for(gene in valid_genes){
                 features = gene,
                 order = TRUE,
                 reduction = "umap.wnn.harmony",
-                cols = c("lightgrey", "red"),
+                cols = c("#C9A0DC", "#6A0DAD" ),
                 pt.size = 0.1) +
       ggtitle(gene)
   )
