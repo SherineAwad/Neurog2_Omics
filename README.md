@@ -1,5 +1,6 @@
 # Neurog2 Multiomics Using Seurat and Signac
 
+```text
  _   _                            ____  
 | \ | | ___ _   _ _ __ ___   __ _|___ \ 
 |  \| |/ _ \ | | | '__/ _ \ / _` | __) |
