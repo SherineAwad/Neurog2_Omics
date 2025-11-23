@@ -7,7 +7,7 @@
 | |\  |  __/ |_| | | | (_) | (_| |/ __/ 
 |_| \_|\___|\__,_|_|  \___/ \__, |_____|
                             |___/       
-
+```
 
 Normally, adult mouse retinas cannot generate new neurons, so vision loss is permanent. We are testing whether overexpressing Neurog2 in Müller glia can reprogram them into functional retinal neurons. These newly formed neurons behave like normal retinal cells.
 
