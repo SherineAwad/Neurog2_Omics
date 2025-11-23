@@ -1,5 +1,13 @@
 # Neurog2 Multiomics Using Seurat and Signac
 
+ _   _                            ____  
+| \ | | ___ _   _ _ __ ___   __ _|___ \ 
+|  \| |/ _ \ | | | '__/ _ \ / _` | __) |
+| |\  |  __/ |_| | | | (_) | (_| |/ __/ 
+|_| \_|\___|\__,_|_|  \___/ \__, |_____|
+                            |___/       
+
+
 Normally, adult mouse retinas cannot generate new neurons, so vision loss is permanent. We are testing whether overexpressing Neurog2 in Müller glia can reprogram them into functional retinal neurons. These newly formed neurons behave like normal retinal cells.
 
 ## Before filtering 
