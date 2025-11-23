@@ -230,3 +230,13 @@ Testing motif enrichment in 2279 regions
 
 ![GO](figures/TH2_pathways_dotplot.png)
 
+
+# Coverage plot for Neurog2 in MG/MGPC Subset Control/Overexpressed
+
+![Neuorg2 MG/MGPC](figures/Neurog2_MG_MGPC_coverage.png)
+
+# Coverage plot for Neurog2 in all cell types
+
+![Neurog2](figures/Neurog2_coverage.png)
+
+
