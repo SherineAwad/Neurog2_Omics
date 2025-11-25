@@ -53,21 +53,24 @@ relationship = "many-to-many"
 
 # ----------------------------
 
-# Build matrix: rows = peaks, columns = clusters
+# Build matrix: rows = peaks, columns = clusters using peak expression
 
 # ----------------------------
 
-mat_all <- merged %>%
-select(peak_id, cluster, avg_log2FC, gene_name) %>%
-distinct() %>%
-pivot_wider(names_from = cluster, values_from = avg_log2FC, values_fill = 0)
+peak_ids <- merged$peak_id
+gene_labels <- merged$gene_name
 
-mat_all <- mat_all[, c("peak_id","gene_name", cell_order)]
-peak_ids <- mat_all$peak_id
-gene_labels <- mat_all$gene_name
-
-mat_dense <- as.matrix(mat_all[, cell_order])
+mat_dense <- matrix(0, nrow=length(peak_ids), ncol=length(cell_order))
 rownames(mat_dense) <- peak_ids
+colnames(mat_dense) <- cell_order
+
+idents <- Idents(obj)  # use official accessor
+
+for (i in seq_along(cell_order)) {
+cl <- cell_order[i]
+cells <- names(idents)[idents == cl]
+mat_dense[,i] <- rowMeans(GetAssayData(obj, assay="ATAC", slot="data")[peak_ids, cells, drop=FALSE])
+}
 
 # ----------------------------
 
