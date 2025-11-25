@@ -159,6 +159,12 @@ myObject.atac.markers <- FindAllMarkers(
 
 ![](figures/cNeurog2_DiffpeaksHeatmap.png?v=7)
 
+
+#### Download unfiltered annotated Diffpeaks 
+
+[All Annotated DiffPeaks](https://docs.google.com/spreadsheets/d/1TU83_cRuvcZ32ns0E1oxUkBtQhsxUuuiSu5M8tCI2Jw/edit?usp=sharing)
+
+
 #  Subset MG/MGPC 
 
 ## Differential gene expression in the MG/MGPC subset 
@@ -239,6 +245,13 @@ Testing motif enrichment in 2279 regions
 
 ![GO](figures/TH2_pathways_dotplot.png)
 
+# More plots ammendment 
+
+```
+Rscript hPlot.R myobject.rds topgenes.txt 
+```
+
+![]()
 
 # Coverage plot for some genes in MG/MGPC Subset Control/Overexpressed
 
