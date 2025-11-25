@@ -162,13 +162,13 @@ myObject.atac.markers <- FindAllMarkers(
 )
 ``` 
 
-## Figure to be updated 
-![](figures/cNeurog2_DiffpeaksHeatmap.png?v=7)
-
-
 #### Download unfiltered annotated Diffpeaks 
 
 [All Annotated DiffPeaks](https://docs.google.com/spreadsheets/d/1TU83_cRuvcZ32ns0E1oxUkBtQhsxUuuiSu5M8tCI2Jw/edit?usp=sharing)
+
+
+## Figure to be updated 
+![](figures/cNeurog2_DiffpeaksHeatmap.png?v=7)
 
 
 #  Subset MG/MGPC 
