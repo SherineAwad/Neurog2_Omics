@@ -5,10 +5,12 @@ library(ggplot2)
 library(dplyr)
 library(tidyr)
 
+
 parser <- ArgumentParser()
 parser$add_argument("--rds", required=TRUE)
 parser$add_argument("-n", type="integer", default=50)
 parser$add_argument("-o", required=TRUE)
+parser$add_argument("-g", required=TRUE, help="Text file with a list of gene names to include")
 args <- parser$parse_args()
 
 obj <- readRDS(args$rds)
@@ -70,59 +72,73 @@ top_peak_ids <- peak_ids[peak_rank][1:args$n]
 
 mat_top <- mat_z[top_peak_ids, , drop=FALSE]
 
-rownames(mat_top) <- gene_labels[match(rownames(mat_top), peak_ids)]
+# Keep original gene labels for top peaks
+gene_labels_top <- gene_labels[match(rownames(mat_top), peak_ids)]
+
+# --------------------------------------------------------------------
+# Load gene list
+# --------------------------------------------------------------------
+gene_list <- read.table(args$g, stringsAsFactors = FALSE)[,1]
+
+# --------------------------------------------------------------------
+# FIX: y-axis labels outside the heatmap
+# Only show genes in list; others are blank
+# --------------------------------------------------------------------
+y_labels <- ifelse(gene_labels_top %in% gene_list, gene_labels_top, "")
 
 # --------------------------------------------------------------------
 # Convert for ggplot
 # --------------------------------------------------------------------
 gene_scores <- mat_top %>%
   as.data.frame() %>%
-  mutate(gene_name = rownames(.)) %>%
+  mutate(row_id = 1:nrow(mat_top)) %>%  # unique row ID for plotting
   pivot_longer(cols = all_of(cell_order), names_to="cluster", values_to="score")
 
 gene_scores$cluster <- factor(gene_scores$cluster, levels = cell_order)
 
 gene_scores <- gene_scores %>%
-  group_by(gene_name) %>%
+  group_by(row_id) %>%
   mutate(maxpos = which.max(score[match(cell_order, cluster)])) %>%
   ungroup()
 
-gene_scores$gene_name <- factor(
-  gene_scores$gene_name,
-  levels = unique(gene_scores$gene_name[order(gene_scores$maxpos)])
+gene_scores$row_id <- factor(
+  gene_scores$row_id,
+  levels = unique(gene_scores$row_id[order(gene_scores$maxpos)])
 )
 
 # --------------------------------------------------------------------
 # Colors (unchanged)
 # --------------------------------------------------------------------
 custom_palette <- c(
-  "#B5D1E1",
-  "#C0DAEA",
-  "#FFFFFF",
-  "#FDFEFE",
-  "#E5A07E",
-  "#C94832",
-  "#B5332A"
+  "#2166AC",
+  "#67A9CF",
+  "#D1E5F0",
+  "white",
+  "#FDDBC7",
+  "#EF8A62",
+  "#B2182B"
 )
+
 
 value_breaks <- scales::rescale(c(-2, -1, -0.1, 0, 0.3, 1, 2))
 
 # --------------------------------------------------------------------
-# Plot heatmap
+# Plot heatmap with y-axis labels outside the tiles
 # --------------------------------------------------------------------
 png(args$o, width=1600, height=2000, res=150)
-ggplot(gene_scores, aes(x=cluster, y=gene_name, fill=score)) +
+ggplot(gene_scores, aes(x=cluster, y=row_id, fill=score)) +
   geom_tile() +
   scale_fill_gradientn(
     colors = custom_palette,
     values = value_breaks,
     name = "Z-score"
   ) +
+  scale_y_discrete(labels = y_labels) +  # <-- only genes in -g shown, outside tiles
   theme_minimal() +
   labs(y="Nearby Gene", x="Cell Type") +
   theme(
     axis.text.x = element_text(angle=90, hjust=1),
-    axis.text.y = element_text(size=10),
+    axis.text.y = element_text(size=10),   # show labels outside
     panel.grid = element_blank()
   )
 dev.off()

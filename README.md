@@ -165,7 +165,7 @@ myObject.atac.markers <- FindAllMarkers(
 [All Annotated DiffPeaks](https://docs.google.com/spreadsheets/d/1TU83_cRuvcZ32ns0E1oxUkBtQhsxUuuiSu5M8tCI2Jw/edit?usp=sharing)
 
 
-![](figures/TopPeaksNearbyheatmap.png)
+![](figures/TopPeaksNearbyheatmap.png?v=1)
 
 
 #  Subset MG/MGPC 
