@@ -144,6 +144,11 @@ celltype_markers <- FindAllMarkers(
 ![](figures/Top10_Markers_heatmap.png?v=5)
 
 
+### Heatmap using `hPlot.R` script
+
+![Top 50 genes heatmap](figures/Top50_pval.rna.Avg_SCT_heatmap_Zscore.png)
+
+
 # Differential Peaks
 
 ```
@@ -157,6 +162,7 @@ myObject.atac.markers <- FindAllMarkers(
 )
 ``` 
 
+## Figure to be updated 
 ![](figures/cNeurog2_DiffpeaksHeatmap.png?v=7)
 
 
