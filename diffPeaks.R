@@ -22,11 +22,9 @@ DefaultAssay(myObject) <- "ATAC"
 # Find differential peaks
 myObject.atac.markers <- FindAllMarkers(
   myObject, 
-  assay = "ATAC", 
-  test.use = "wilcox", 
   only.pos = TRUE, 
-  min.pct = 0.1, 
-  logfc.threshold = 0.1
+  min.pct = 0.25, 
+  logfc.threshold = 0.25
 )
 
 # Save diff peaks table
