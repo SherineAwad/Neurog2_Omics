@@ -55,12 +55,10 @@ mat_dense <- as.matrix(mat_all[, cell_order])
 rownames(mat_dense) <- peak_ids
 
 # --------------------------------------------------------------------
-# Compute z-scores
+# Compute z-scores (normalize per peak across clusters)
 # --------------------------------------------------------------------
-mat_z <- t(apply(mat_dense, 1, function(x) {
-  x <- as.numeric(x)
-  if (sd(x) == 0) rep(0, length(x)) else (x - mean(x)) / sd(x)
-}))
+mat_z <- t(scale(t(mat_dense), center = TRUE, scale = TRUE))
+mat_z[is.na(mat_z)] <- 0
 rownames(mat_z) <- peak_ids
 colnames(mat_z) <- cell_order
 
