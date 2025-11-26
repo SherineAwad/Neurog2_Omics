@@ -65,13 +65,13 @@ p <- DoHeatmap(
   size = 5,
   raster = TRUE,
   group.colors = c("#026AB1","#61BFB9","#936DAD","#D11536","#AAA9A9","#EF9000")
-) + 
+) +
   scale_y_discrete(labels = rep("", length(genes_use))) +
   theme(
     axis.text.y = element_blank(),
     axis.ticks.y = element_blank(),
     axis.text.x = element_text(angle = 0),
-    plot.margin = margin(1, 0.5, 1, 2.8, "cm")  # Increased top, bottom, and left margins
+    plot.margin = margin(4, 0.5, 1, 2.8, "cm")  # Increased top margin to 3cm
   ) +
   scale_fill_gradient2(
     low  = rev(c('#D1E5F0', '#67A9CF', '#2166AC')),
@@ -80,8 +80,8 @@ p <- DoHeatmap(
     midpoint = 0
   )
 
-# Prepare repel labels - position them completely outside the heatmap
-y_positions <- seq_along(genes_use)
+# Prepare repel labels - FIXED POSITIONING
+y_positions <- rev(seq_along(genes_use))  # REVERSED to match heatmap order
 repel_df <- data.frame(
   x = -0.5,  # Position further left to be outside heatmap area
   y = y_positions,
