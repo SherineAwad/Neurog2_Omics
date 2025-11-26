@@ -242,9 +242,27 @@ Testing motif enrichment in 2279 regions
  
 ### 🚨 🚨 🚨 Warning:  Neurog2 is not still found 
 
-# Pathways of genes near upregulated peaks in TH2 
+# Pathways of genes near peaks in TH2 
 
-![GO](figures/TH2_pathways_dotplot.png)
+```
+ego <- enrichGO(
+gene = target_genes,
+OrgDb = org.Mm.eg.db,
+keyType = "SYMBOL",
+ont = "BP",
+pvalueCutoff = 0.05,
+qvalueCutoff = 0.05
+)
+```
+
+![](figures/figures/TH2_pathways_dotplot_UP.png?v=1)
+
+[Diwnload UP in TH2 GO](https://docs.google.com/spreadsheets/d/1m0nhitZY3PG9Gj677w7HxOm8s3tu0yap-TZRerpzsmE/edit?usp=sharing)
+
+
+![](figures/figures/TH2_pathways_dotplot_DOWN.png?v=1)
+[Download Down in TH2 GO](https://docs.google.com/spreadsheets/d/1noJKMewbueSXz3Ds7tO1atLeQZojyOTxUIBbRzvDAQc/edit?usp=sharing)
+
 
 # More plots ammendment 
 
