@@ -266,11 +266,6 @@ qvalueCutoff = 0.05
 [Download Down in TH2 GO](https://docs.google.com/spreadsheets/d/1noJKMewbueSXz3Ds7tO1atLeQZojyOTxUIBbRzvDAQc/edit?usp=sharing)
 
 
-# More plots ammendment 
-
-```
-Rscript hPlot.R myobject.rds topgenes.txt 
-```
 
 ![]()
 
