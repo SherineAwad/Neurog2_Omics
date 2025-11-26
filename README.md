@@ -146,7 +146,7 @@ celltype_markers <- FindAllMarkers(
 
 ### Heatmap using `hPlot.R` script
 
-![Top 50 genes heatmap](figures/Top50_pval.rna.Avg_SCT_heatmap_Zscore.png?v=3)
+![Top 50 genes heatmap](figures/Top50_pval.rna.Avg_SCT_heatmap_Zscore.png?v=4)
 
 # Differential Peaks
 
