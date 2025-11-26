@@ -1,6 +1,7 @@
 library(Seurat)
 library(dplyr)
 library(ggplot2)
+library(ggrepel)
 
 # Load object
 
@@ -33,9 +34,9 @@ genes_top50 <- top50_pval$gene
 # --------------------------
 
 DefaultAssay(MyObject) <- "SCT"
-mat <- GetAssayData(MyObject, assay="SCT", slot="data")
+mat <- GetAssayData(MyObject, assay="SCT", layer="data")  # Seurat 5+
 
-genes_use <- genes_top50[genes_top50 %in% rownames(mat)]  # keep original order
+genes_use <- genes_top50[genes_top50 %in% rownames(mat)]
 if(length(genes_use) == 0) stop("No overlap between top50 genes and matrix rows.")
 
 mat_sub <- mat[genes_use, , drop = FALSE]
@@ -57,7 +58,7 @@ new.data = mat_z
 
 # --------------------------
 
-# 4. LABEL ONLY INPUT GENES AT THEIR EXACT POSITION
+# 4. LABEL ONLY INPUT GENES OUTSIDE
 
 # --------------------------
 
@@ -65,34 +66,61 @@ gene_text <- sapply(genes_use, function(g) if(g %in% genes_input) g else "")
 
 # --------------------------
 
-# 5. PNG (600 DPI) WITH FIXED GENE LABELS
+# 5. PNG (600 DPI) WITH LABELS OUTSIDE ONLY
 
 # --------------------------
 
 png("Top50_pval.rna.Avg_SCT_heatmap_Zscore.png", width=10, height=14, units="in", res=600)
 
-DoHeatmap(
-object = MyObject,
-features = genes_use,
-assay = "SCT",
-slot = "scale.data",
-draw.lines = FALSE,
-size = 5,
-raster = TRUE,
-group.colors = c("#026AB1","#61BFB9","#936DAD","#D11536","#AAA9A9","#EF9000")
+# Base heatmap with **no y-axis labels**
+
+# Base heatmap but FORCE NO LABELS
+p <- DoHeatmap(
+  object = MyObject,
+  features = genes_use,
+  assay = "SCT",
+  slot = "scale.data",
+  draw.lines = FALSE,
+  size = 5,
+  raster = TRUE,
+  group.colors = c("#026AB1","#61BFB9","#936DAD","#D11536","#AAA9A9","#EF9000")
 ) +
-theme(
-axis.text.y = element_text(size = 10, vjust = 0.5, hjust = 1, margin = margin(r = 20)),
-axis.text.x = element_text(angle = 0)
-) +
-scale_y_discrete(labels = gene_text) +
-scale_fill_gradient2(
-low  = rev(c('#D1E5F0', '#67A9CF', '#2166AC')),
-mid  = "white",
-high = rev(c('#B2182B', '#EF8A62', '#FDDBC7')),
-midpoint = 0,
-guide = "colourbar",
-aesthetics = "fill"
+  scale_y_discrete(labels = rep("", length(genes_use))) +   # <<< CRITICAL FIX
+  theme(
+    axis.text.y = element_blank(),     # hide any leftovers
+    axis.ticks.y = element_blank(),
+    axis.text.x = element_text(angle = 0)
+  ) +
+  scale_fill_gradient2(
+    low  = rev(c('#D1E5F0', '#67A9CF', '#2166AC')),
+    mid  = "white",
+    high = rev(c('#B2182B', '#EF8A62', '#FDDBC7')),
+    midpoint = 0
+  )
+
+# Prepare repel labels fully outside
+
+y_positions <- 1:length(genes_use)
+repel_df <- data.frame(
+x = -1,             # position fully outside left
+y = y_positions,
+label = gene_text
+)
+repel_df <- repel_df[repel_df$label != "", ]
+
+# Add labels outside, **no arrows**
+
+p + geom_text_repel(
+data = repel_df,
+aes(x = x, y = y, label = label),
+inherit.aes = FALSE,
+direction = "y",
+hjust = 1,
+nudge_x = 0,
+segment.size = 0,
+segment.color = NA,
+force = 1,
+max.overlaps = Inf
 )
 
 dev.off()
