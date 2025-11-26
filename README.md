@@ -255,12 +255,12 @@ qvalueCutoff = 0.05
 )
 ```
 
-![](figures/figures/TH2_pathways_dotplot_UP.png?v=1)
+![](figures/TH2_pathways_dotplot_UP.png?v=1)
 
-[Diwnload UP in TH2 GO](https://docs.google.com/spreadsheets/d/1m0nhitZY3PG9Gj677w7HxOm8s3tu0yap-TZRerpzsmE/edit?usp=sharing)
+[Download UP in TH2 GO](https://docs.google.com/spreadsheets/d/1m0nhitZY3PG9Gj677w7HxOm8s3tu0yap-TZRerpzsmE/edit?usp=sharing)
 
 
-![](figures/figures/TH2_pathways_dotplot_DOWN.png?v=1)
+![](figures/TH2_pathways_dotplot_DOWN.png?v=1)
 [Download Down in TH2 GO](https://docs.google.com/spreadsheets/d/1noJKMewbueSXz3Ds7tO1atLeQZojyOTxUIBbRzvDAQc/edit?usp=sharing)
 
 
